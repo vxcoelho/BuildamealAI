@@ -2,12 +2,30 @@
 
 ## Overview
 
-Build-A-Meal is a web application built with Flask that appears to be in its initial development phase. The application currently displays a landing page indicating it's "Coming Soon". Based on the naming convention, this application is likely intended to be a meal planning or recipe building platform.
+Build-A-Meal is an AI-powered recipe generator web application built with Flask and PostgreSQL. The application features a tab-based navigation system with 5 main sections: Home (featured recipes), Browse Recipes (full recipe collection), AI Generator (custom recipe generation), My Favorites (planned feature), and About.
 
 **Tech Stack:**
 - **Backend:** Python Flask web framework
-- **Frontend:** HTML with inline CSS (currently minimal)
-- **Server:** Flask development server
+- **Database:** PostgreSQL with SQLAlchemy ORM
+- **Frontend:** HTML with inline CSS, Jinja2 templating
+- **Server:** Flask development server (Gunicorn for production via Railway)
+- **Deployment:** Railway-ready with Procfile
+
+## Recent Changes (October 10, 2025)
+
+### Tab Navigation System Implemented
+- Created base template (`base.html`) with tab navigation UI
+- Implemented 5 tabs: Home, Browse Recipes, AI Generator, My Favorites, About
+- Added routes for all tabs in `main.py`
+- Fixed circular import issue by moving `db` initialization to `models.py`
+- Added empty-state handling for recipe displays
+- Improved code quality per architect review (removed unused imports, added type casting)
+
+### Database Integration
+- Recipe model with fields: title, ingredients, instructions, cooking_time
+- Seeded database with 10 sample recipes
+- Home page displays 6 random featured recipes
+- Browse page displays all recipes with full details
 
 ## User Preferences
 
@@ -18,48 +36,65 @@ Preferred communication style: Simple, everyday language.
 ### Frontend Architecture
 
 **Current Implementation:**
-- Simple HTML template rendering using Flask's Jinja2 templating engine
-- Inline CSS styling for the landing page
-- Responsive design with flexbox centering
-- Gradient background aesthetic (purple/blue theme)
+- Tab-based navigation with 5 main sections
+- Base template inheritance pattern for consistent UI/UX
+- Inline CSS styling with purple/blue gradient theme
+- Responsive grid layout for recipe cards
+- Active tab highlighting for navigation feedback
 
 **Design Pattern:**
-- Server-side rendering (SSR) approach where Flask renders HTML templates
-- Template variable injection for dynamic content (message variable)
+- Server-side rendering (SSR) with Jinja2 templating
+- Template inheritance using `base.html` as parent template
+- Dynamic content rendering from database queries
+- Active tab tracking via `active_tab` parameter
 
-**Rationale:**
-- Flask's built-in templating is suitable for small to medium applications
-- Server-side rendering provides good SEO and initial load performance
-- Simple structure allows for rapid prototyping and iteration
+**Template Structure:**
+- `base.html`: Master template with navigation and shared styles
+- `home.html`: Featured recipes (6 random from database)
+- `browse.html`: All recipes with full details
+- `generate.html`: AI recipe generation form
+- `favorites.html`: Placeholder for future favorites feature
+- `about.html`: Application information and features
 
 ### Backend Architecture
 
 **Current Implementation:**
-- Flask application with minimal configuration
-- Single route handler (`/`) serving the home page
-- Development server running on port 5000 with debug mode enabled
-- Host set to `0.0.0.0` for external accessibility
+- Flask application with SQLAlchemy ORM
+- Multiple route handlers for tab navigation
+- Database integration for recipe retrieval
+- Railway deployment configuration (PORT env var, debug mode control)
+- Circular import resolution via `db.init_app(app)` pattern
+
+**Routes:**
+- `/` - Home page with featured recipes
+- `/browse` - Browse all recipes
+- `/generate` - AI recipe generator (POST support for form submission)
+- `/favorites` - My Favorites page
+- `/about` - About page
 
 **Design Decisions:**
-- **Debug Mode:** Enabled for development, provides auto-reload and detailed error messages
-- **Host Configuration:** `0.0.0.0` allows access from any network interface, suitable for cloud development environments like Replit
-
-**Future Considerations:**
-- As the application grows, route handlers should be organized into blueprints
-- Configuration should be externalized (environment variables, config files)
-- Debug mode must be disabled in production
-- Production-ready WSGI server (like Gunicorn) should replace Flask's development server
+- **Debug Mode:** Disabled in production (checks RAILWAY_ENVIRONMENT)
+- **Host Configuration:** `0.0.0.0` for cloud deployment compatibility
+- **Database:** SQLAlchemy with PostgreSQL support
+- **Circular Import Fix:** Moved `db = SQLAlchemy()` to models.py, use `db.init_app(app)` in main.py
 
 ### Data Storage
 
 **Current State:**
-- No database implementation present
-- No data persistence layer
+- PostgreSQL database via SQLAlchemy ORM
+- Recipe model with 4 fields (id, title, ingredients, instructions, cooking_time)
+- 10 seeded sample recipes covering various cuisines
+- SQLite fallback for local development
 
-**Expected Future Requirements:**
-- Database for storing recipes, ingredients, meal plans, and user data
-- Likely candidates: PostgreSQL (for relational data), SQLite (for development)
-- ORM consideration: SQLAlchemy or Drizzle for database interactions
+**Database Schema:**
+```
+Recipe:
+  - id (Integer, Primary Key)
+  - title (String, 100 chars)
+  - ingredients (Text)
+  - instructions (Text)
+  - cooking_time (Integer, minutes)
+```
 
 ### Authentication & Authorization
 
