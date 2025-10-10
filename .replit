@@ -18,6 +18,7 @@ deploymentTarget = "cloudrun"
 expertMode = true
 
 [workflows]
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
