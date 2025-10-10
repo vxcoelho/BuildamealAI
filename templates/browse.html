@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Recipes - Build-A-Meal{% endblock %}
+
+{% block content %}
+<h2>Browse All Recipes 📚</h2>
+<p style="color: #666; margin: 20px 0;">Explore our collection of delicious recipes</p>
+
+{% if recipes %}
+<div class="recipe-grid">
+    {% for recipe in recipes %}
+    <div class="recipe-card">
+        <h3>{{ recipe.title }}</h3>
+        <p><strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes</p>
+        <p style="margin-top: 10px;"><strong>Ingredients:</strong></p>
+        <p style="color: #666;">{{ recipe.ingredients }}</p>
+        <p style="margin-top: 10px;"><strong>Instructions:</strong></p>
+        <p style="color: #666;">{{ recipe.instructions[:200] }}...</p>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p style="text-align: center; color: #999; padding: 40px;">No recipes available yet. Start by adding some recipes!</p>
+{% endif %}
+{% endblock %}

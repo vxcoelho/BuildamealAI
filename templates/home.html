@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Build-A-Meal{% endblock %}
+
+{% block content %}
+<h2>Welcome to Build-A-Meal! 🎉</h2>
+<p style="font-size: 18px; color: #666; margin: 20px 0;">Your AI-powered recipe generator is ready to help you discover amazing meals!</p>
+
+<h3 style="margin-top: 40px; margin-bottom: 20px;">Featured Recipes</h3>
+{% if recipes %}
+<div class="recipe-grid">
+    {% for recipe in recipes %}
+    <div class="recipe-card">
+        <h3>{{ recipe.title }}</h3>
+        <p><strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes</p>
+        <p style="margin-top: 10px;"><strong>Key Ingredients:</strong></p>
+        <p style="color: #666;">{{ recipe.ingredients[:100] }}...</p>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p style="text-align: center; color: #999; padding: 40px;">No recipes available yet. Check back soon!</p>
+{% endif %}
+{% endblock %}

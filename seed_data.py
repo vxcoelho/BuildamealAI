@@ -1,5 +1,5 @@
-from main import app, db
-from models import Recipe
+from main import app
+from models import db, Recipe
 
 sample_recipes = [
     {

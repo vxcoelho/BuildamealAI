@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}AI Generator - Build-A-Meal{% endblock %}
+
+{% block content %}
+<h2>AI Recipe Generator 🤖</h2>
+<p style="color: #666; margin: 20px 0;">Let AI create a custom recipe for you!</p>
+
+<form method="POST" action="/generate">
+    <label for="ingredients">What ingredients do you have?</label>
+    <textarea id="ingredients" name="ingredients" rows="4" placeholder="e.g., chicken, tomatoes, garlic, pasta" required></textarea>
+
+    <label for="cuisine">Preferred Cuisine (optional)</label>
+    <select id="cuisine" name="cuisine">
+        <option value="">Any</option>
+        <option value="Italian">Italian</option>
+        <option value="Mexican">Mexican</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Indian">Indian</option>
+        <option value="American">American</option>
+        <option value="Japanese">Japanese</option>
+    </select>
+
+    <label for="dietary">Dietary Restrictions (optional)</label>
+    <input type="text" id="dietary" name="dietary" placeholder="e.g., vegetarian, gluten-free, vegan">
+
+    <label for="time">Max Cooking Time (minutes)</label>
+    <input type="number" id="time" name="time" value="30" min="5" max="180">
+
+    <button type="submit" class="btn" style="margin-top: 20px;">Generate Recipe 🎲</button>
+</form>
+
+{% if generated_recipe %}
+<div class="recipe-card" style="margin-top: 40px; background: #f9f9f9;">
+    <h3>{{ generated_recipe.name }}</h3>
+    <p><strong>Cuisine:</strong> {{ generated_recipe.cuisine }}</p>
+    <p><strong>Cooking Time:</strong> {{ generated_recipe.cooking_time }} minutes</p>
+    <p style="margin-top: 15px;"><strong>Ingredients:</strong></p>
+    <p>{{ generated_recipe.ingredients }}</p>
+    <p style="margin-top: 15px;"><strong>Instructions:</strong></p>
+    <p>{{ generated_recipe.instructions }}</p>
+</div>
+{% endif %}
+{% endblock %}
