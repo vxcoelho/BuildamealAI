@@ -17,4 +17,6 @@ def home():
 if __name__ == '__main__':
     # Railway provides PORT via environment variable
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    # Disable debug in production (Railway sets RAILWAY_ENVIRONMENT)
+    debug = os.environ.get('RAILWAY_ENVIRONMENT') is None
+    app.run(host='0.0.0.0', port=port, debug=debug)
