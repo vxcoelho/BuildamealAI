@@ -217,8 +217,9 @@ Instructions:
                 }
                 
             except Exception as e:
-                error = f"AI is having trouble right now. Please try again!"
-                print(f"AI Error: {e}")
+                # Show detailed error to help debug Railway issues
+                error = f"AI Error: {str(e)[:200]}"
+                print(f"Full AI Error: {e}")
     
     return render_template('generate.html', generated_recipe=generated_recipe, error=error, active_tab='generate')
 
