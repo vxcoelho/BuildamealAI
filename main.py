@@ -3,18 +3,26 @@ import os
 from models import db, Recipe
 from openai import OpenAI
 
-# Setup OpenAI client using Replit AI Integrations
-# This uses Replit's AI service, no API key needed from you
-AI_INTEGRATIONS_OPENAI_API_KEY = os.environ.get("AI_INTEGRATIONS_OPENAI_API_KEY")
-AI_INTEGRATIONS_OPENAI_BASE_URL = os.environ.get("AI_INTEGRATIONS_OPENAI_BASE_URL")
-
-# Create OpenAI client if credentials are available
+# Setup OpenAI client
+# Try Replit AI Integrations first (for local dev), then regular OpenAI API key (for Railway)
 openai_client = None
-if AI_INTEGRATIONS_OPENAI_API_KEY and AI_INTEGRATIONS_OPENAI_BASE_URL:
-    openai_client = OpenAI(
-        api_key=AI_INTEGRATIONS_OPENAI_API_KEY,
-        base_url=AI_INTEGRATIONS_OPENAI_BASE_URL
-    )
+try:
+    ai_integrations_key = os.environ.get("AI_INTEGRATIONS_OPENAI_API_KEY")
+    ai_integrations_url = os.environ.get("AI_INTEGRATIONS_OPENAI_BASE_URL")
+    regular_openai_key = os.environ.get("OPENAI_API_KEY")
+    
+    if ai_integrations_key and ai_integrations_url:
+        # Using Replit AI Integrations (local dev)
+        openai_client = OpenAI(
+            api_key=ai_integrations_key,
+            base_url=ai_integrations_url
+        )
+    elif regular_openai_key:
+        # Using regular OpenAI API (for Railway deployment)
+        openai_client = OpenAI(api_key=regular_openai_key)
+except Exception as e:
+    print(f"Warning: OpenAI client initialization failed: {e}")
+    openai_client = None
 
 app = Flask(__name__)
 
