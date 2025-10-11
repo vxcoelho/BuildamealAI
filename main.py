@@ -1,6 +1,20 @@
 from flask import Flask, render_template, request
 import os
 from models import db, Recipe
+from openai import OpenAI
+
+# Setup OpenAI client using Replit AI Integrations
+# This uses Replit's AI service, no API key needed from you
+AI_INTEGRATIONS_OPENAI_API_KEY = os.environ.get("AI_INTEGRATIONS_OPENAI_API_KEY")
+AI_INTEGRATIONS_OPENAI_BASE_URL = os.environ.get("AI_INTEGRATIONS_OPENAI_BASE_URL")
+
+# Create OpenAI client if credentials are available
+openai_client = None
+if AI_INTEGRATIONS_OPENAI_API_KEY and AI_INTEGRATIONS_OPENAI_BASE_URL:
+    openai_client = OpenAI(
+        api_key=AI_INTEGRATIONS_OPENAI_API_KEY,
+        base_url=AI_INTEGRATIONS_OPENAI_BASE_URL
+    )
 
 app = Flask(__name__)
 
@@ -104,24 +118,93 @@ def browse():
 @app.route('/generate', methods=['GET', 'POST'])
 def generate():
     generated_recipe = None
+    error = None
+    
     if request.method == 'POST':
         ingredients = request.form.get('ingredients', '')
         cuisine = request.form.get('cuisine', 'Any')
-        time = int(request.form.get('time', 30))
+        time_input = request.form.get('time', '30')
+        try:
+            time = int(time_input) if time_input else 30
+        except ValueError:
+            time = 30
         
-        # Simple AI simulation - pick a random recipe for now
-        # In future, this will use actual AI
-        sample_recipe = Recipe.query.order_by(db.func.random()).first()
-        if sample_recipe:
-            generated_recipe = {
-                'name': f"AI-Generated {cuisine} Recipe",
-                'cuisine': cuisine if cuisine else 'International',
-                'cooking_time': time,
-                'ingredients': ingredients + " (AI will suggest more ingredients)",
-                'instructions': "AI-generated instructions coming soon! For now, here's a sample: " + sample_recipe.instructions
-            }
+        if not ingredients:
+            error = "Please enter some ingredients!"
+        elif not openai_client:
+            error = "AI recipe generation is not available. Please contact support."
+        else:
+            try:
+                # Create AI prompt for recipe generation
+                cuisine_text = f"{cuisine} " if cuisine and cuisine != 'Any' else ""
+                prompt = f"""You are a creative chef. Create a delicious {cuisine_text}recipe using these ingredients: {ingredients}
+
+The recipe should take about {time} minutes to cook.
+
+Format your response EXACTLY like this:
+Recipe Name: [creative name]
+Cuisine: {cuisine if cuisine else 'International'}
+Cooking Time: {time} minutes
+Ingredients:
+- [list all ingredients with quantities]
+
+Instructions:
+[step by step cooking instructions]"""
+
+                # Call OpenAI API
+                # the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
+                response = openai_client.chat.completions.create(
+                    model="gpt-5",
+                    messages=[
+                        {"role": "system", "content": "You are a creative chef who creates delicious recipes from leftover ingredients."},
+                        {"role": "user", "content": prompt}
+                    ]
+                )
+                
+                # Parse the AI response
+                ai_text = response.choices[0].message.content
+                print(f"AI Response: {ai_text}")  # Debug logging
+                
+                # Extract recipe details from AI response with improved parsing
+                recipe_name = "AI-Generated Recipe"
+                recipe_cuisine = cuisine if cuisine else "International"
+                recipe_ingredients = []
+                recipe_instructions = []
+                
+                # Split by sections
+                if "Recipe Name:" in ai_text:
+                    name_part = ai_text.split("Recipe Name:")[1].split("\n")[0]
+                    recipe_name = name_part.strip()
+                
+                if "Ingredients:" in ai_text and "Instructions:" in ai_text:
+                    ingredients_section = ai_text.split("Ingredients:")[1].split("Instructions:")[0]
+                    instructions_section = ai_text.split("Instructions:")[1]
+                    
+                    # Parse ingredients
+                    for line in ingredients_section.strip().split('\n'):
+                        line = line.strip()
+                        if line and not line.startswith("Cooking Time") and not line.startswith("Cuisine"):
+                            recipe_ingredients.append(line)
+                    
+                    # Parse instructions
+                    for line in instructions_section.strip().split('\n'):
+                        line = line.strip()
+                        if line:
+                            recipe_instructions.append(line)
+                
+                generated_recipe = {
+                    'name': recipe_name,
+                    'cuisine': recipe_cuisine,
+                    'cooking_time': time,
+                    'ingredients': '\n'.join(recipe_ingredients) if recipe_ingredients else "See AI response above",
+                    'instructions': '\n'.join(recipe_instructions) if recipe_instructions else ai_text
+                }
+                
+            except Exception as e:
+                error = f"AI is having trouble right now. Please try again!"
+                print(f"AI Error: {e}")
     
-    return render_template('generate.html', generated_recipe=generated_recipe, active_tab='generate')
+    return render_template('generate.html', generated_recipe=generated_recipe, error=error, active_tab='generate')
 
 @app.route('/favorites')
 def favorites():

@@ -30,6 +30,12 @@
     <button type="submit" class="btn" style="margin-top: 20px;">Generate Recipe 🎲</button>
 </form>
 
+{% if error %}
+<div class="recipe-card" style="margin-top: 40px; background: #ffe6e6; border: 2px solid #ff4444;">
+    <p style="color: #cc0000; font-weight: bold;">⚠️ {{ error }}</p>
+</div>
+{% endif %}
+
 {% if generated_recipe %}
 <div class="recipe-card" style="margin-top: 40px; background: #f9f9f9;">
     <h3>{{ generated_recipe.name }}</h3>
