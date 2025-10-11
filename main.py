@@ -163,7 +163,6 @@ Instructions:
                 
                 # Parse the AI response
                 ai_text = response.choices[0].message.content
-                print(f"AI Response: {ai_text}")  # Debug logging
                 
                 # Extract recipe details from AI response with improved parsing
                 recipe_name = "AI-Generated Recipe"
