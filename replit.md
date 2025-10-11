@@ -11,9 +11,16 @@ Build-A-Meal is an AI-powered recipe generator web application built with Flask 
 - **Server:** Flask development server (Gunicorn for production via Railway)
 - **Deployment:** Railway-ready with Procfile
 
-## Recent Changes (October 10, 2025)
+## Recent Changes
 
-### Tab Navigation System Implemented
+### October 11, 2025 - Railway Deployment & Auto-Initialization
+- **Fixed Railway deployment:** Added automatic database initialization on app startup
+- **Auto-create tables:** Database tables now created automatically via `db.create_all()` in app context
+- **Auto-seed recipes:** 10 sample recipes automatically added if database is empty (prevents duplicates)
+- **Production ready:** App now works seamlessly on Railway with PostgreSQL
+- **Live deployment:** Successfully deployed to Railway at web-production-9b7cc.up.railway.app
+
+### October 10, 2025 - Tab Navigation System
 - Created base template (`base.html`) with tab navigation UI
 - Implemented 5 tabs: Home, Browse Recipes, AI Generator, My Favorites, About
 - Added routes for all tabs in `main.py`
@@ -77,6 +84,10 @@ Preferred communication style: Simple, everyday language.
 - **Host Configuration:** `0.0.0.0` for cloud deployment compatibility
 - **Database:** SQLAlchemy with PostgreSQL support
 - **Circular Import Fix:** Moved `db = SQLAlchemy()` to models.py, use `db.init_app(app)` in main.py
+- **Auto-Initialization:** Database tables and seed data automatically created on app startup
+  - `db.create_all()` runs in app context at startup
+  - 10 sample recipes auto-seeded if Recipe table is empty
+  - Works seamlessly with both SQLite (local) and PostgreSQL (Railway)
 
 ### Data Storage
 
