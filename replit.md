@@ -13,15 +13,17 @@ Build-A-Meal is an AI-powered recipe generator web application built with Flask 
 
 ## Recent Changes
 
-### October 11, 2025 - AI Recipe Generation Integration
-- **Real AI Integration:** Implemented OpenAI-powered recipe generation
-- **Dual Environment Support:** Works with Replit AI Integrations (local dev) or OpenAI API key (Railway)
+### October 11, 2025 - AI Recipe Generation Integration (FREE!)
+- **Real AI Integration:** Implemented AI-powered recipe generation
+- **Dual Environment Support:** 
+  - Replit: Uses Replit AI Integrations (automatic, no setup needed)
+  - Railway: Uses Google Gemini API (100% FREE, no credit card required!)
 - **Custom Recipe Creation:** AI generates complete recipes from user's leftover ingredients
 - **Smart Prompting:** AI considers ingredients, cuisine preferences, and cooking time constraints
 - **Robust Parsing:** Extracts recipe name, ingredients, and step-by-step instructions from AI responses
 - **Input Validation:** Added error handling for invalid cooking time inputs (defaults to 30 minutes)
 - **Error Display:** User-friendly error messages in the AI Generator interface
-- **Railway Setup:** Requires OPENAI_API_KEY environment variable on Railway for AI features
+- **Railway Setup:** Requires GEMINI_API_KEY environment variable (free from Google AI Studio)
 
 ### October 11, 2025 - Railway Deployment & Auto-Initialization
 - **Fixed Railway deployment:** Added automatic database initialization on app startup

@@ -2,27 +2,34 @@ from flask import Flask, render_template, request
 import os
 from models import db, Recipe
 from openai import OpenAI
+import google.generativeai as genai
 
-# Setup OpenAI client
-# Try Replit AI Integrations first (for local dev), then regular OpenAI API key (for Railway)
-openai_client = None
+# Setup AI client (Replit AI or Google Gemini)
+# Replit AI for local dev, Google Gemini (FREE) for Railway
+ai_client = None
+ai_type = None
+
 try:
+    # Try Replit AI Integrations first (local dev)
     ai_integrations_key = os.environ.get("AI_INTEGRATIONS_OPENAI_API_KEY")
     ai_integrations_url = os.environ.get("AI_INTEGRATIONS_OPENAI_BASE_URL")
-    regular_openai_key = os.environ.get("OPENAI_API_KEY")
     
     if ai_integrations_key and ai_integrations_url:
-        # Using Replit AI Integrations (local dev)
-        openai_client = OpenAI(
+        ai_client = OpenAI(
             api_key=ai_integrations_key,
             base_url=ai_integrations_url
         )
-    elif regular_openai_key:
-        # Using regular OpenAI API (for Railway deployment)
-        openai_client = OpenAI(api_key=regular_openai_key)
+        ai_type = "openai"
+    else:
+        # Use Google Gemini (completely FREE for Railway!)
+        gemini_key = os.environ.get("GEMINI_API_KEY")
+        if gemini_key:
+            genai.configure(api_key=gemini_key)
+            ai_client = genai.GenerativeModel('gemini-1.5-flash')
+            ai_type = "gemini"
 except Exception as e:
-    print(f"Warning: OpenAI client initialization failed: {e}")
-    openai_client = None
+    print(f"Warning: AI client initialization failed: {e}")
+    ai_client = None
 
 app = Flask(__name__)
 
@@ -139,7 +146,7 @@ def generate():
         
         if not ingredients:
             error = "Please enter some ingredients!"
-        elif not openai_client:
+        elif not ai_client:
             error = "AI recipe generation is not available. Please contact support."
         else:
             try:
@@ -159,18 +166,20 @@ Ingredients:
 Instructions:
 [step by step cooking instructions]"""
 
-                # Call OpenAI API
-                # the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
-                response = openai_client.chat.completions.create(
-                    model="gpt-5",
-                    messages=[
-                        {"role": "system", "content": "You are a creative chef who creates delicious recipes from leftover ingredients."},
-                        {"role": "user", "content": prompt}
-                    ]
-                )
-                
-                # Parse the AI response
-                ai_text = response.choices[0].message.content
+                # Call AI API (OpenAI or Gemini)
+                if ai_type == "openai":
+                    # the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
+                    response = ai_client.chat.completions.create(
+                        model="gpt-5",
+                        messages=[
+                            {"role": "system", "content": "You are a creative chef who creates delicious recipes from leftover ingredients."},
+                            {"role": "user", "content": prompt}
+                        ]
+                    )
+                    ai_text = response.choices[0].message.content
+                else:  # gemini
+                    response = ai_client.generate_content(prompt)
+                    ai_text = response.text
                 
                 # Extract recipe details from AI response with improved parsing
                 recipe_name = "AI-Generated Recipe"
