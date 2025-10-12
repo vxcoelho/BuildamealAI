@@ -6,7 +6,7 @@
 <style>
     .browse-header {
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 60px;
     }
 
     .browse-title {
@@ -27,12 +27,18 @@
     }
 
     .search-box {
-        max-width: 800px;
+        max-width: 900px;
         margin: 0 auto 40px;
+        position: relative;
+    }
+
+    .search-form {
+        display: flex;
+        gap: 15px;
     }
 
     .search-input {
-        width: 100%;
+        flex: 1;
         padding: 20px 30px;
         font-size: 1.1rem;
         border: 3px solid rgba(255, 107, 53, 0.3);
@@ -52,46 +58,30 @@
         color: #666;
     }
 
-    .filters {
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .filter-group {
-        margin-bottom: 25px;
-    }
-
-    .filter-label {
-        color: #FF6B35;
-        font-weight: 600;
-        margin-bottom: 15px;
-        display: block;
-        font-size: 1.1rem;
-    }
-
-    .filter-btn {
-        background: #2d2d2d;
-        color: #cccccc;
-        border: 2px solid rgba(255, 107, 53, 0.3);
-        padding: 12px 28px;
-        border-radius: 30px;
-        margin: 5px;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: 1rem;
-        font-weight: 600;
-    }
-
-    .filter-btn:hover {
-        border-color: #FF6B35;
-        background: rgba(255, 107, 53, 0.1);
-        transform: translateY(-2px);
-    }
-
-    .filter-btn.active {
+    .search-btn {
         background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
         color: #000000;
-        border-color: #FF6B35;
+        padding: 20px 45px;
+        border: none;
+        border-radius: 60px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: 800;
+        transition: all 0.3s;
+        box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
+        white-space: nowrap;
+    }
+
+    .search-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 35px rgba(255, 107, 53, 0.6);
+    }
+
+    .loading {
+        text-align: center;
+        padding: 60px 20px;
+        color: #FF6B35;
+        font-size: 1.3rem;
     }
 
     .recipes-grid {
@@ -115,6 +105,14 @@
         box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
     }
 
+    .recipe-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
     .recipe-title {
         font-family: 'Playfair Display', serif;
         color: #FF6B35;
@@ -123,9 +121,9 @@
         font-weight: 700;
     }
 
-    .recipe-time {
+    .recipe-category {
         color: #999;
-        font-size: 1rem;
+        font-size: 0.9rem;
         margin-bottom: 15px;
     }
 
@@ -142,158 +140,211 @@
         font-size: 0.95rem;
     }
 
+    .empty-state {
+        text-align: center;
+        padding: 100px 20px;
+        color: #999;
+    }
+
+    .empty-state h3 {
+        font-family: 'Playfair Display', serif;
+        color: #FF6B35;
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
     .no-results {
         text-align: center;
         padding: 60px 20px;
         color: #999;
         font-size: 1.3rem;
     }
-
-    .clear-filters {
-        background: transparent;
-        color: #FF6B35;
-        border: 2px solid #FF6B35;
-        padding: 10px 25px;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: 1rem;
-        font-weight: 600;
-        margin-top: 15px;
-    }
-
-    .clear-filters:hover {
-        background: #FF6B35;
-        color: #000000;
-    }
 </style>
 
 <div class="browse-header">
-    <h2 class="browse-title">Recipe Collection</h2>
-    <p class="browse-subtitle">{{ recipes|length }} delicious recipes ready to inspire</p>
+    <h2 class="browse-title">Discover Recipes</h2>
+    <p class="browse-subtitle">Search thousands of recipes from around the world</p>
 </div>
 
 <div class="search-box">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search by name or ingredients...">
+    <form class="search-form" onsubmit="searchRecipes(event)">
+        <select id="cuisineSelect" class="search-input" style="flex: 0 0 200px;">
+            <option value="">All Cuisines</option>
+            <option value="American">American</option>
+            <option value="British">British</option>
+            <option value="Canadian">Canadian</option>
+            <option value="Chinese">Chinese</option>
+            <option value="Croatian">Croatian</option>
+            <option value="Dutch">Dutch</option>
+            <option value="Egyptian">Egyptian</option>
+            <option value="French">French</option>
+            <option value="Greek">Greek</option>
+            <option value="Indian">Indian</option>
+            <option value="Irish">Irish</option>
+            <option value="Italian">Italian</option>
+            <option value="Jamaican">Jamaican</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Kenyan">Kenyan</option>
+            <option value="Malaysian">Malaysian</option>
+            <option value="Mexican">Mexican</option>
+            <option value="Moroccan">Moroccan</option>
+            <option value="Polish">Polish</option>
+            <option value="Portuguese">Portuguese</option>
+            <option value="Russian">Russian</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Thai">Thai</option>
+            <option value="Tunisian">Tunisian</option>
+            <option value="Turkish">Turkish</option>
+            <option value="Vietnamese">Vietnamese</option>
+        </select>
+        <input type="text" id="searchInput" class="search-input" 
+               placeholder="🔍 Search for any recipe (e.g., chicken soup, pasta, curry)...">
+        <button type="submit" class="search-btn">Search</button>
+    </form>
 </div>
 
-<div class="filters">
-    <div class="filter-group">
-        <span class="filter-label">Cuisine</span>
-        <button class="filter-btn cuisine-filter active" data-cuisine="all">All</button>
-        <button class="filter-btn cuisine-filter" data-cuisine="italian">Italian</button>
-        <button class="filter-btn cuisine-filter" data-cuisine="mexican">Mexican</button>
-        <button class="filter-btn cuisine-filter" data-cuisine="american">American</button>
-        <button class="filter-btn cuisine-filter" data-cuisine="asian">Asian</button>
-    </div>
-    
-    <div class="filter-group">
-        <span class="filter-label">Cooking Time</span>
-        <button class="filter-btn time-filter active" data-time="all">All</button>
-        <button class="filter-btn time-filter" data-time="quick">Quick (&lt;20 min)</button>
-        <button class="filter-btn time-filter" data-time="medium">Medium (20-45 min)</button>
-        <button class="filter-btn time-filter" data-time="long">Long (45+ min)</button>
-    </div>
-    
-    <button class="clear-filters" onclick="clearAllFilters()">Clear All Filters</button>
+<div id="loading" class="loading" style="display: none;">
+    🔄 Searching recipes...
 </div>
 
-<div class="recipes-grid" id="recipesGrid">
-    {% for recipe in recipes %}
-    <div class="recipe-card" 
-         data-title="{{ recipe.title|lower }}" 
-         data-ingredients="{{ recipe.ingredients|lower }}"
-         data-time="{{ recipe.cooking_time }}"
-         data-cuisine="{{ recipe.cuisine|lower }}">
-        <div class="recipe-title">{{ recipe.title }}</div>
-        <div class="recipe-time">⏱️ {{ recipe.cooking_time }} minutes</div>
-        <div class="recipe-ingredients"><strong>Ingredients:</strong> {{ recipe.ingredients }}</div>
-        <div class="recipe-instructions"><strong>Instructions:</strong> {{ recipe.instructions[:150] }}{% if recipe.instructions|length > 150 %}...{% endif %}</div>
-    </div>
-    {% endfor %}
+<div id="recipesGrid" class="recipes-grid"></div>
+
+<div id="emptyState" class="empty-state">
+    <h3>Start Your Culinary Adventure</h3>
+    <p>Type any dish name, ingredient, or cuisine above and press Search to discover unlimited recipes!</p>
 </div>
 
-<div class="no-results" id="noResults" style="display: none;">
-    No recipes found. Try different filters or search terms!
+<div id="noResults" class="no-results" style="display: none;">
+    No recipes found. Try a different search term!
 </div>
 
 <script>
-let activeTimeFilter = 'all';
-let activeCuisineFilter = 'all';
-let searchTerm = '';
-
-// Search functionality
-document.getElementById('searchInput').addEventListener('input', function(e) {
-    searchTerm = e.target.value.toLowerCase();
-    filterRecipes();
-});
-
-// Cuisine filter
-document.querySelectorAll('.cuisine-filter').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.cuisine-filter').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        activeCuisineFilter = this.dataset.cuisine;
-        filterRecipes();
-    });
-});
-
-// Time filter
-document.querySelectorAll('.time-filter').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.time-filter').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        activeTimeFilter = this.dataset.time;
-        filterRecipes();
-    });
-});
-
-function filterRecipes() {
-    const cards = document.querySelectorAll('.recipe-card');
-    let visibleCount = 0;
+async function searchRecipes(event) {
+    event.preventDefault();
     
-    cards.forEach(card => {
-        const title = card.dataset.title;
-        const ingredients = card.dataset.ingredients;
-        const time = parseInt(card.dataset.time);
-        const cuisine = card.dataset.cuisine;
+    const searchTerm = document.getElementById('searchInput').value.trim();
+    const cuisine = document.getElementById('cuisineSelect').value;
+    
+    // Show loading, hide others
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('noResults').style.display = 'none';
+    document.getElementById('recipesGrid').innerHTML = '';
+    
+    try {
+        let meals = [];
         
-        // Search filter
-        const matchesSearch = searchTerm === '' || 
-                            title.includes(searchTerm) || 
-                            ingredients.includes(searchTerm);
-        
-        // Time filter
-        let matchesTime = true;
-        if (activeTimeFilter === 'quick') matchesTime = time < 20;
-        else if (activeTimeFilter === 'medium') matchesTime = time >= 20 && time <= 45;
-        else if (activeTimeFilter === 'long') matchesTime = time > 45;
-        
-        // Cuisine filter
-        const matchesCuisine = activeCuisineFilter === 'all' || 
-                              cuisine.includes(activeCuisineFilter);
-        
-        if (matchesSearch && matchesTime && matchesCuisine) {
-            card.style.display = 'block';
-            visibleCount++;
-        } else {
-            card.style.display = 'none';
+        // If cuisine AND search term, get cuisine recipes then filter by name
+        if (cuisine && searchTerm) {
+            const cuisineUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${encodeURIComponent(cuisine)}`;
+            const cuisineResponse = await fetch(cuisineUrl);
+            const cuisineData = await cuisineResponse.json();
+            
+            if (cuisineData.meals) {
+                // Fetch full details for meals that match search term
+                const filtered = cuisineData.meals.filter(meal => 
+                    meal.strMeal.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                
+                if (filtered.length > 0) {
+                    await fetchMealDetails(filtered.slice(0, 12));
+                    document.getElementById('loading').style.display = 'none';
+                    return;
+                }
+            }
         }
-    });
-    
-    // Show/hide no results message
-    document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
-    document.getElementById('recipesGrid').style.display = visibleCount === 0 ? 'none' : 'grid';
+        // If only cuisine selected, use area filter
+        else if (cuisine) {
+            const url = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${encodeURIComponent(cuisine)}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.meals && data.meals.length > 0) {
+                await fetchMealDetails(data.meals.slice(0, 12));
+                document.getElementById('loading').style.display = 'none';
+                return;
+            }
+        }
+        // If only search term provided, use search
+        else if (searchTerm) {
+            const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(searchTerm)}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.meals && data.meals.length > 0) {
+                displayRecipes(data.meals);
+                document.getElementById('loading').style.display = 'none';
+                return;
+            }
+        }
+        
+        // No results found or no search criteria provided
+        document.getElementById('loading').style.display = 'none';
+        if (cuisine || searchTerm) {
+            document.getElementById('noResults').style.display = 'block';
+        } else {
+            document.getElementById('emptyState').style.display = 'block';
+        }
+        
+    } catch (error) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('noResults').style.display = 'block';
+        console.error('Error fetching recipes:', error);
+    }
 }
 
-function clearAllFilters() {
-    searchTerm = '';
-    activeTimeFilter = 'all';
-    activeCuisineFilter = 'all';
-    document.getElementById('searchInput').value = '';
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('[data-cuisine="all"], [data-time="all"]').forEach(btn => btn.classList.add('active'));
-    filterRecipes();
+async function fetchMealDetails(meals) {
+    const grid = document.getElementById('recipesGrid');
+    grid.innerHTML = '';
+    
+    // Fetch first 12 meals to avoid too many requests
+    const mealsToFetch = meals.slice(0, 12);
+    
+    for (const meal of mealsToFetch) {
+        try {
+            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`);
+            const data = await response.json();
+            if (data.meals && data.meals[0]) {
+                displaySingleRecipe(data.meals[0]);
+            }
+        } catch (error) {
+            console.error('Error fetching meal details:', error);
+        }
+    }
+}
+
+function displaySingleRecipe(meal) {
+    const grid = document.getElementById('recipesGrid');
+    
+    // Extract ingredients
+    const ingredients = [];
+    for (let i = 1; i <= 20; i++) {
+        const ingredient = meal[`strIngredient${i}`];
+        const measure = meal[`strMeasure${i}`];
+        if (ingredient && ingredient.trim()) {
+            ingredients.push(`${measure ? measure.trim() + ' ' : ''}${ingredient.trim()}`);
+        }
+    }
+    
+    const card = document.createElement('div');
+    card.className = 'recipe-card';
+    card.innerHTML = `
+        <img src="${meal.strMealThumb || ''}" alt="${meal.strMeal || 'Recipe'}" class="recipe-image">
+        <div class="recipe-title">${meal.strMeal || 'Unknown Recipe'}</div>
+        <div class="recipe-category">🌍 ${meal.strArea || 'International'} • ${meal.strCategory || 'Main Course'}</div>
+        <div class="recipe-ingredients"><strong>Ingredients:</strong> ${ingredients.slice(0, 5).join(', ')}${ingredients.length > 5 ? '...' : ''}</div>
+        <div class="recipe-instructions"><strong>Instructions:</strong> ${meal.strInstructions ? meal.strInstructions.substring(0, 150) + '...' : 'See full recipe for instructions'}</div>
+    `;
+    grid.appendChild(card);
+}
+
+function displayRecipes(meals) {
+    const grid = document.getElementById('recipesGrid');
+    grid.innerHTML = '';
+    
+    meals.forEach(meal => {
+        displaySingleRecipe(meal);
+    });
 }
 </script>
 {% endblock %}
