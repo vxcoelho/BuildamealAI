@@ -11,6 +11,15 @@ Preferred communication style: Simple, everyday language.
 ### UI/UX Decisions
 The application features a luxury orange and black design with premium typography (Playfair Display for headings, Poppins for body) and professional food photography backgrounds. It utilizes gradient overlays, high-contrast text, and subtle animations (e.g., ripple effects, fade-ins) for an enhanced user experience. The design prioritizes visual consistency and responsiveness across all pages.
 
+**Mobile Responsiveness:**
+- Two breakpoints: 768px (tablet) and 480px (mobile)
+- All pages collapse to single-column layouts on mobile devices
+- Touch-friendly controls with minimum 16px font sizes
+- Navigation tabs wrap to 2 columns on tablet, stack vertically on mobile
+- Recipe grids, meal planner calendar, and feature sections stack to single columns
+- Forms and buttons expand to full width on mobile devices
+- No horizontal overflow on any screen size
+
 ### Technical Implementations
 - **Frontend:** Server-side rendering (SSR) using Flask and Jinja2 templating for dynamic content.
 - **Backend:** Python Flask framework with SQLAlchemy ORM for database interactions.
