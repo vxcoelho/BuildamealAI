@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}AI Generator - Build A Meal{% endblock %}
+{% block title %}AI Generator - Build a Meal{% endblock %}
 
 {% block content %}
 <style>
@@ -17,8 +17,9 @@
 
     .search-container {
         width: 100%;
-        max-width: 900px;
+        max-width: 1000px;
         text-align: center;
+        padding: 0 20px;
     }
 
     .main-title {
@@ -44,6 +45,13 @@
         margin-bottom: 30px;
     }
 
+    .input-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
     .search-bar {
         width: 100%;
         padding: 25px 30px;
@@ -67,12 +75,37 @@
         color: #666;
     }
 
+    .cuisine-select {
+        min-width: 250px;
+        padding: 25px 30px;
+        font-size: 1.2rem;
+        border: 3px solid rgba(255, 107, 53, 0.3);
+        border-radius: 60px;
+        background: #1a1a1a;
+        color: #ffffff;
+        transition: all 0.3s;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+    }
+
+    .cuisine-select:focus {
+        outline: none;
+        border-color: #FF6B35;
+        box-shadow: 0 0 40px rgba(255, 107, 53, 0.5), 0 10px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .cuisine-select option {
+        background: #1a1a1a;
+        color: #ffffff;
+        padding: 10px;
+    }
+
     .options-toggle {
         display: inline-block;
-        margin-top: 20px;
+        margin-bottom: 20px;
         color: #FF6B35;
         cursor: pointer;
-        font-size: 1.1rem;
+        font-size: 1rem;
         text-decoration: none;
         transition: all 0.3s;
     }
@@ -83,9 +116,9 @@
 
     .advanced-options {
         display: none;
-        margin-top: 30px;
+        margin-bottom: 30px;
         background: #1a1a1a;
-        padding: 30px;
+        padding: 25px 30px;
         border-radius: 20px;
         border: 2px solid rgba(255, 107, 53, 0.3);
     }
@@ -107,19 +140,19 @@
     }
 
     .option-group {
-        margin-bottom: 25px;
         text-align: left;
     }
 
     .option-group label {
-        color: #FF6B35;
+        color: #FFD700;
         font-size: 1rem;
+        font-weight: 600;
         margin-bottom: 10px;
         display: block;
     }
 
-    .option-group select,
     .option-group input {
+        width: 100%;
         background: #2d2d2d;
         border: 2px solid rgba(255, 107, 53, 0.3);
         border-radius: 10px;
@@ -129,8 +162,8 @@
         transition: all 0.3s;
     }
 
-    .option-group select:focus,
     .option-group input:focus {
+        outline: none;
         border-color: #FF6B35;
         box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
     }
@@ -138,15 +171,14 @@
     .generate-btn {
         background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
         color: #000000;
-        padding: 20px 50px;
+        padding: 22px 60px;
         border: none;
         border-radius: 60px;
         cursor: pointer;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         font-weight: 800;
         transition: all 0.3s;
         box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
-        margin-top: 20px;
     }
 
     .generate-btn:hover {
@@ -163,44 +195,57 @@
         color: #ff6666;
         font-weight: 600;
     }
+
+    @media (max-width: 768px) {
+        .input-row {
+            grid-template-columns: 1fr;
+        }
+
+        .cuisine-select {
+            min-width: 100%;
+        }
+    }
 </style>
 
 <div class="search-container">
     <h1 class="main-title">What's in your fridge?</h1>
-    <p class="subtitle">Enter your ingredients and let AI create magic ✨</p>
+    <p class="subtitle">Enter your ingredients, pick a cuisine, and let AI create magic ✨</p>
 
     <form method="POST" action="/generate" class="search-form">
-        <input 
-            type="text" 
-            name="ingredients" 
-            class="search-bar" 
-            placeholder="chicken, rice, tomatoes, garlic..." 
-            required
-            autofocus
-        >
+        <div class="input-row">
+            <input 
+                type="text" 
+                name="ingredients" 
+                class="search-bar" 
+                placeholder="🥘 Enter ingredients: chicken, rice, tomatoes, garlic..." 
+                required
+                autofocus
+            >
+            
+            <select name="cuisine" class="cuisine-select">
+                <option value="">Any Cuisine</option>
+                <option value="Italian">🍝 Italian</option>
+                <option value="Mexican">🌮 Mexican</option>
+                <option value="Chinese">🥢 Chinese</option>
+                <option value="Indian">🍛 Indian</option>
+                <option value="American">🍔 American</option>
+                <option value="Japanese">🍱 Japanese</option>
+                <option value="Thai">🌶️ Thai</option>
+                <option value="French">🥐 French</option>
+                <option value="Mediterranean">🫒 Mediterranean</option>
+                <option value="Korean">🍜 Korean</option>
+                <option value="Vietnamese">🍲 Vietnamese</option>
+                <option value="Greek">🥙 Greek</option>
+            </select>
+        </div>
 
         <a href="javascript:void(0)" onclick="toggleOptions()" class="options-toggle">
-            ⚙️ More Options
+            ⚙️ Advanced Options
         </a>
 
         <div id="advancedOptions" class="advanced-options">
             <div class="option-group">
-                <label for="cuisine">Cuisine Preference</label>
-                <select id="cuisine" name="cuisine">
-                    <option value="">Any Cuisine</option>
-                    <option value="Italian">Italian</option>
-                    <option value="Mexican">Mexican</option>
-                    <option value="Chinese">Chinese</option>
-                    <option value="Indian">Indian</option>
-                    <option value="American">American</option>
-                    <option value="Japanese">Japanese</option>
-                    <option value="Thai">Thai</option>
-                    <option value="Mediterranean">Mediterranean</option>
-                </select>
-            </div>
-
-            <div class="option-group">
-                <label for="time">Max Cooking Time (minutes)</label>
+                <label for="time">⏱️ Max Cooking Time (minutes)</label>
                 <input type="number" id="time" name="time" value="30" min="5" max="180">
             </div>
         </div>
