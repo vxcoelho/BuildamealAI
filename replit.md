@@ -14,16 +14,14 @@ Build A Meal is an AI-powered recipe generator web application built with Flask 
 ## Recent Changes
 
 ### October 12, 2025 - Luxury Design Overhaul & Animated Hero
-- **Premium Logo:** Replaced emoji with professional luxury dining stock photo in circular gold-gradient frame
 - **Branding Update:** Changed from "Build A Meal" to "Build a Meal" (lowercase 'a')
 - **Animated Hero Background:** Cinematic cooking scene with zoom/pulse animation and gradient color shifts
 - **Floating Particles:** 4 animated particles with opacity fading for dynamic visual interest
-- **AI Generator on Landing Page:** Moved full AI search functionality to home page hero section
-- **Glass Morphism Effects:** Backdrop blur and enhanced focus states on search bar
 - **Ripple Button Effects:** CTA button with expanding ripple animation on hover
 - **Cinematic Animations:** Smooth fade-in sequences, staggered feature card reveals
 - **High-End Aesthetic:** Professional food photography, gradient overlays, luxury typography
 - **Performance Optimized:** CSS-only animations, no heavy JavaScript
+- **Clean Logo:** Text-only branding with gradient effect (no images)
 
 ### October 12, 2025 - Unlimited Recipe Search via TheMealDB API
 - **TheMealDB Integration:** Connected to free, unlimited recipe database (no API key required)
