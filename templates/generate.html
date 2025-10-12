@@ -353,6 +353,25 @@
                 <label for="time">⏱️ Max Cooking Time (minutes)</label>
                 <input type="number" id="time" name="time" value="30" min="5" max="180">
             </div>
+            
+            <div class="option-group">
+                <label for="dietary">🥗 Dietary Preference</label>
+                <select id="dietary" name="dietary" style="width: 100%; background: #2d2d2d; border: 2px solid rgba(255, 107, 53, 0.3); border-radius: 10px; padding: 15px; color: #ffffff; font-size: 1rem;">
+                    <option value="">None</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Gluten-Free">Gluten-Free</option>
+                    <option value="Dairy-Free">Dairy-Free</option>
+                    <option value="Keto">Keto</option>
+                    <option value="Paleo">Paleo</option>
+                    <option value="Low-Carb">Low-Carb</option>
+                </select>
+            </div>
+            
+            <div class="option-group">
+                <label for="allergies">⚠️ Allergies (comma-separated)</label>
+                <input type="text" id="allergies" name="allergies" placeholder="e.g., peanuts, shellfish, dairy">
+            </div>
         </div>
 
         <button type="submit" class="generate-btn">Generate Recipe 🚀</button>

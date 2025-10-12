@@ -153,6 +153,9 @@ def generate():
         ingredients = request.form.get('ingredients', '')
         cuisine = request.form.get('cuisine', 'Any')
         time_input = request.form.get('time', '30')
+        dietary = request.form.get('dietary', '')
+        allergies = request.form.get('allergies', '')
+        
         try:
             time = int(time_input) if time_input else 30
         except ValueError:
@@ -166,9 +169,12 @@ def generate():
             try:
                 # Create AI prompt for recipe generation
                 cuisine_text = f"{cuisine} " if cuisine and cuisine != 'Any' else ""
+                dietary_text = f"\nDIETARY REQUIREMENT: This recipe MUST be {dietary}." if dietary else ""
+                allergies_text = f"\nALLERGY WARNING: Do NOT use these ingredients: {allergies}" if allergies else ""
+                
                 prompt = f"""You are a creative chef. Create a delicious {cuisine_text}recipe using ONLY these ingredients: {ingredients}
 
-IMPORTANT: You must ONLY use the ingredients listed above. Do NOT add any extra ingredients or suggest substitutions. Work with exactly what is provided.
+IMPORTANT: You must ONLY use the ingredients listed above. Do NOT add any extra ingredients or suggest substitutions. Work with exactly what is provided.{dietary_text}{allergies_text}
 
 The recipe should take about {time} minutes to cook.
 
