@@ -73,8 +73,21 @@
     }
 
     .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 20px;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        border: 3px solid rgba(255, 107, 53, 0.3);
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+        transition: all 0.3s;
+    }
+
+    .feature:hover .feature-icon {
+        border-color: #FF6B35;
+        box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+        transform: scale(1.05);
     }
 
     .feature-title {
@@ -100,17 +113,17 @@
 
 <div class="features">
     <div class="feature">
-        <div class="feature-icon">🤖</div>
+        <div class="feature-icon" style="background-image: url('/static/stock_images/sleek_modern_ai_tech_3e085227.jpg');"></div>
         <div class="feature-title">AI-Powered</div>
         <div class="feature-desc">Advanced AI creates custom recipes tailored to your ingredients</div>
     </div>
     <div class="feature">
-        <div class="feature-icon">⚡</div>
+        <div class="feature-icon" style="background-image: url('/static/stock_images/lightning_bolt_elect_910d9049.jpg');"></div>
         <div class="feature-title">Instant Results</div>
         <div class="feature-desc">Get complete recipes with ingredients and instructions in seconds</div>
     </div>
     <div class="feature">
-        <div class="feature-icon">🌍</div>
+        <div class="feature-icon" style="background-image: url('/static/stock_images/earth_globe_world_ma_23e2cddc.jpg');"></div>
         <div class="feature-title">Any Cuisine</div>
         <div class="feature-desc">From Italian to Thai, create dishes from around the world</div>
     </div>
