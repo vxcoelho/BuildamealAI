@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import os
-from models import db, Recipe
+from models import db, Recipe, MealPlan
 from openai import OpenAI
 import google.generativeai as genai
 
@@ -244,6 +244,104 @@ def favorites():
 @app.route('/about')
 def about():
     return render_template('about.html', active_tab='about')
+
+@app.route('/planner')
+def planner():
+    from datetime import datetime, timedelta
+    from collections import defaultdict
+    
+    # Get all recipes for drag and drop
+    recipes = Recipe.query.all()
+    
+    # Get current week (Monday to Sunday)
+    today = datetime.now().date()
+    start_of_week = today - timedelta(days=today.weekday())
+    week_dates = [start_of_week + timedelta(days=i) for i in range(7)]
+    
+    # Get all meal plans for this week
+    meal_plans = MealPlan.query.filter(
+        MealPlan.date >= start_of_week,
+        MealPlan.date < start_of_week + timedelta(days=7)
+    ).all()
+    
+    # Organize meal plans by date and meal type
+    planned_meals = defaultdict(lambda: {'breakfast': None, 'lunch': None, 'dinner': None})
+    for meal_plan in meal_plans:
+        planned_meals[str(meal_plan.date)][meal_plan.meal_type] = {
+            'id': meal_plan.id,
+            'recipe': meal_plan.recipe
+        }
+    
+    return render_template('planner.html', 
+                         recipes=recipes, 
+                         week_dates=week_dates,
+                         planned_meals=dict(planned_meals),
+                         active_tab='planner')
+
+@app.route('/planner/add', methods=['POST'])
+def add_meal_plan():
+    from datetime import datetime
+    data = request.json
+    recipe_id = data.get('recipe_id')
+    date_str = data.get('date')
+    meal_type = data.get('meal_type')
+    
+    # Delete existing meal plan for this slot if any
+    MealPlan.query.filter_by(
+        date=datetime.strptime(date_str, '%Y-%m-%d').date(),
+        meal_type=meal_type
+    ).delete()
+    
+    # Add new meal plan
+    meal_plan = MealPlan(
+        recipe_id=recipe_id,
+        date=datetime.strptime(date_str, '%Y-%m-%d').date(),
+        meal_type=meal_type
+    )
+    db.session.add(meal_plan)
+    db.session.commit()
+    
+    return {'success': True, 'meal_plan_id': meal_plan.id}
+
+@app.route('/planner/remove/<int:meal_plan_id>', methods=['DELETE'])
+def remove_meal_plan(meal_plan_id):
+    meal_plan = MealPlan.query.get_or_404(meal_plan_id)
+    db.session.delete(meal_plan)
+    db.session.commit()
+    return {'success': True}
+
+@app.route('/planner/shopping-list')
+def shopping_list():
+    from datetime import datetime, timedelta
+    from collections import defaultdict
+    
+    # Get current week meal plans
+    today = datetime.now().date()
+    start_of_week = today - timedelta(days=today.weekday())
+    
+    meal_plans = MealPlan.query.filter(
+        MealPlan.date >= start_of_week,
+        MealPlan.date < start_of_week + timedelta(days=7)
+    ).all()
+    
+    # Aggregate ingredients
+    ingredient_list = []
+    total_nutrition = {'calories': 0, 'protein': 0, 'carbs': 0}
+    
+    for meal_plan in meal_plans:
+        if meal_plan.recipe.ingredients:
+            ingredient_list.append(f"**{meal_plan.recipe.title}** ({meal_plan.meal_type.title()}):\n{meal_plan.recipe.ingredients}")
+        
+        # Add nutrition
+        total_nutrition['calories'] += meal_plan.recipe.calories or 0
+        total_nutrition['protein'] += meal_plan.recipe.protein or 0
+        total_nutrition['carbs'] += meal_plan.recipe.carbs or 0
+    
+    return render_template('shopping_list.html', 
+                         ingredient_list=ingredient_list,
+                         total_nutrition=total_nutrition,
+                         meal_count=len(meal_plans),
+                         active_tab='planner')
 
 if __name__ == '__main__':
     # Railway provides PORT via environment variable

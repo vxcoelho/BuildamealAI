@@ -1,0 +1,341 @@
+{% extends "base.html" %}
+
+{% block title %}Meal Planner - Build A Meal{% endblock %}
+
+{% block content %}
+<style>
+    .planner-container {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 30px;
+        margin-top: 20px;
+    }
+
+    .recipe-sidebar {
+        background: #2d2d2d;
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 107, 53, 0.3);
+        max-height: 700px;
+        overflow-y: auto;
+    }
+
+    .sidebar-title {
+        font-family: 'Playfair Display', serif;
+        color: #FF6B35;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+    .recipe-item {
+        background: #1a1a1a;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        cursor: grab;
+        transition: all 0.3s;
+        border: 1px solid rgba(255, 107, 53, 0.2);
+    }
+
+    .recipe-item:hover {
+        transform: translateX(5px);
+        border-color: #FF6B35;
+    }
+
+    .recipe-item.dragging {
+        opacity: 0.5;
+        cursor: grabbing;
+    }
+
+    .recipe-item h4 {
+        color: #FF6B35;
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+    }
+
+    .recipe-item p {
+        color: #999;
+        font-size: 0.8rem;
+        margin: 0;
+    }
+
+    .calendar-container {
+        background: #2d2d2d;
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 107, 53, 0.3);
+    }
+
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .calendar-title {
+        font-family: 'Playfair Display', serif;
+        color: #FF6B35;
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: 100px repeat(7, 1fr);
+        gap: 10px;
+    }
+
+    .day-header {
+        background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+        color: #000;
+        padding: 15px 10px;
+        text-align: center;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .day-header.small {
+        font-size: 0.75rem;
+    }
+
+    .meal-label {
+        background: #1a1a1a;
+        padding: 15px 10px;
+        text-align: center;
+        border-radius: 8px;
+        color: #FF6B35;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .meal-slot {
+        background: #1a1a1a;
+        padding: 15px;
+        border-radius: 8px;
+        min-height: 80px;
+        border: 2px dashed rgba(255, 107, 53, 0.3);
+        transition: all 0.3s;
+        position: relative;
+    }
+
+    .meal-slot.drag-over {
+        background: rgba(255, 107, 53, 0.2);
+        border-color: #FF6B35;
+    }
+
+    .meal-slot.filled {
+        background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+        border-style: solid;
+        border-color: #FF6B35;
+    }
+
+    .planned-recipe {
+        color: #cccccc;
+        font-size: 0.9rem;
+    }
+
+    .planned-recipe h5 {
+        color: #FF6B35;
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+    }
+
+    .remove-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(255, 68, 68, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        transition: all 0.3s;
+    }
+
+    .remove-btn:hover {
+        background: #ff4444;
+        transform: scale(1.1);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+        color: #000;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+</style>
+
+<div class="calendar-header">
+    <h2 class="calendar-title">Weekly Meal Planner 📅</h2>
+    <div class="action-buttons">
+        <a href="/planner/shopping-list" class="btn-primary">📋 Shopping List</a>
+    </div>
+</div>
+
+<div class="planner-container">
+    <div class="recipe-sidebar">
+        <h3 class="sidebar-title">Recipes</h3>
+        {% for recipe in recipes %}
+        <div class="recipe-item" draggable="true" data-recipe-id="{{ recipe.id }}">
+            <h4>{{ recipe.title }}</h4>
+            <p>⏱️ {{ recipe.cooking_time }} min</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="calendar-container">
+        <div class="calendar-grid">
+            <div></div>
+            {% for date in week_dates %}
+            <div class="day-header">
+                <div>{{ date.strftime('%A') }}</div>
+                <div class="small">{{ date.strftime('%b %d') }}</div>
+            </div>
+            {% endfor %}
+
+            <!-- Breakfast Row -->
+            <div class="meal-label">🍳 Breakfast</div>
+            {% for date in week_dates %}
+            <div class="meal-slot" data-date="{{ date }}" data-meal-type="breakfast">
+                {% if planned_meals[date|string] and planned_meals[date|string]['breakfast'] %}
+                <div class="planned-recipe">
+                    <h5>{{ planned_meals[date|string]['breakfast']['recipe'].title }}</h5>
+                    <p>{{ planned_meals[date|string]['breakfast']['recipe'].cooking_time }} min</p>
+                </div>
+                <button class="remove-btn" data-meal-plan-id="{{ planned_meals[date|string]['breakfast']['id'] }}">×</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <!-- Lunch Row -->
+            <div class="meal-label">🍱 Lunch</div>
+            {% for date in week_dates %}
+            <div class="meal-slot" data-date="{{ date }}" data-meal-type="lunch">
+                {% if planned_meals[date|string] and planned_meals[date|string]['lunch'] %}
+                <div class="planned-recipe">
+                    <h5>{{ planned_meals[date|string]['lunch']['recipe'].title }}</h5>
+                    <p>{{ planned_meals[date|string]['lunch']['recipe'].cooking_time }} min</p>
+                </div>
+                <button class="remove-btn" data-meal-plan-id="{{ planned_meals[date|string]['lunch']['id'] }}">×</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <!-- Dinner Row -->
+            <div class="meal-label">🍽️ Dinner</div>
+            {% for date in week_dates %}
+            <div class="meal-slot" data-date="{{ date }}" data-meal-type="dinner">
+                {% if planned_meals[date|string] and planned_meals[date|string]['dinner'] %}
+                <div class="planned-recipe">
+                    <h5>{{ planned_meals[date|string]['dinner']['recipe'].title }}</h5>
+                    <p>{{ planned_meals[date|string]['dinner']['recipe'].cooking_time }} min</p>
+                </div>
+                <button class="remove-btn" data-meal-plan-id="{{ planned_meals[date|string]['dinner']['id'] }}">×</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+// Drag and Drop functionality
+const recipeItems = document.querySelectorAll('.recipe-item');
+const mealSlots = document.querySelectorAll('.meal-slot');
+
+recipeItems.forEach(item => {
+    item.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('recipe-id', item.dataset.recipeId);
+        item.classList.add('dragging');
+    });
+
+    item.addEventListener('dragend', e => {
+        item.classList.remove('dragging');
+    });
+});
+
+mealSlots.forEach(slot => {
+    slot.addEventListener('dragover', e => {
+        e.preventDefault();
+        slot.classList.add('drag-over');
+    });
+
+    slot.addEventListener('dragleave', e => {
+        slot.classList.remove('drag-over');
+    });
+
+    slot.addEventListener('drop', e => {
+        e.preventDefault();
+        slot.classList.remove('drag-over');
+        
+        const recipeId = e.dataTransfer.getData('recipe-id');
+        const date = slot.dataset.date;
+        const mealType = slot.dataset.mealType;
+
+        // Add meal plan via AJAX
+        fetch('/planner/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                recipe_id: recipeId,
+                date: date,
+                meal_type: mealType
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
+    });
+});
+
+// Remove meal plan
+document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const mealPlanId = btn.dataset.mealPlanId;
+        
+        if (confirm('Remove this meal from your plan?')) {
+            fetch(`/planner/remove/${mealPlanId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

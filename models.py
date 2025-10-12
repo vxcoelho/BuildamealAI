@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -8,6 +9,21 @@ class Recipe(db.Model):
     ingredients = db.Column(db.Text, nullable=False)
     instructions = db.Column(db.Text, nullable=False)
     cooking_time = db.Column(db.Integer, nullable=False)
+    calories = db.Column(db.Integer, default=0)
+    protein = db.Column(db.Integer, default=0)
+    carbs = db.Column(db.Integer, default=0)
     
     def __repr__(self):
         return f'<Recipe {self.title}>'
+
+class MealPlan(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    meal_type = db.Column(db.String(20), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    recipe = db.relationship('Recipe', backref='meal_plans')
+    
+    def __repr__(self):
+        return f'<MealPlan {self.meal_type} on {self.date}>'

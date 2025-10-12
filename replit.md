@@ -13,6 +13,20 @@ Build A Meal is an AI-powered recipe generator web application built with Flask 
 
 ## Recent Changes
 
+### October 12, 2025 - Meal Planning & Calendar Feature
+- **Weekly Calendar:** Drag-and-drop meal planner with Monday-Sunday weekly view
+- **Meal Organization:** Three meal types per day (breakfast, lunch, dinner) with visual calendar grid
+- **Drag-and-Drop Interface:** HTML5 drag API implementation for intuitive meal planning
+- **Recipe Assignment:** Drag recipes from sidebar into calendar slots to plan meals
+- **Meal Removal:** One-click removal of planned meals with confirmation dialog
+- **Shopping List Generation:** Automatically aggregates ingredients from all planned meals
+- **Nutrition Tracking:** Added calories, protein, and carbs fields to recipes
+- **Weekly Nutrition Summary:** Total and per-meal nutrition estimates on shopping list
+- **Database Model:** New MealPlan table with recipe_id, date, meal_type relationships
+- **API Endpoints:** RESTful endpoints for adding/removing meals (POST /planner/add, DELETE /planner/remove/<id>)
+- **Empty States:** Helpful messages when no meals are planned
+- **Print Functionality:** Print-friendly shopping list for grocery trips
+
 ### October 12, 2025 - Luxury Design Upgrade
 - **Premium Typography:** Implemented Google Fonts with Playfair Display (serif) for all headings and Poppins (sans-serif) for body text
 - **Branding Update:** Removed hyphen from "Build-A-Meal" → "Build A Meal" across entire website
