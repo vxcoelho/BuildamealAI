@@ -3,48 +3,220 @@
 {% block title %}AI Generator - Build-A-Meal{% endblock %}
 
 {% block content %}
-<h2>AI Recipe Generator 🤖</h2>
-<p style="color: #666; margin: 20px 0;">Let AI create a custom recipe for you!</p>
+<style>
+    .content {
+        background: transparent !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        min-height: 70vh !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-<form method="POST" action="/generate">
-    <label for="ingredients">What ingredients do you have?</label>
-    <textarea id="ingredients" name="ingredients" rows="4" placeholder="e.g., chicken, tomatoes, garlic, pasta" required></textarea>
+    .search-container {
+        width: 100%;
+        max-width: 900px;
+        text-align: center;
+    }
 
-    <label for="cuisine">Preferred Cuisine (optional)</label>
-    <select id="cuisine" name="cuisine">
-        <option value="">Any</option>
-        <option value="Italian">Italian</option>
-        <option value="Mexican">Mexican</option>
-        <option value="Chinese">Chinese</option>
-        <option value="Indian">Indian</option>
-        <option value="American">American</option>
-        <option value="Japanese">Japanese</option>
-    </select>
+    .main-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
 
-    <label for="dietary">Dietary Restrictions (optional)</label>
-    <input type="text" id="dietary" name="dietary" placeholder="e.g., vegetarian, gluten-free, vegan">
+    .subtitle {
+        color: #999;
+        font-size: 1.3rem;
+        margin-bottom: 50px;
+    }
 
-    <label for="time">Max Cooking Time (minutes)</label>
-    <input type="number" id="time" name="time" value="30" min="5" max="180">
+    .search-form {
+        position: relative;
+        margin-bottom: 30px;
+    }
 
-    <button type="submit" class="btn" style="margin-top: 20px;">Generate Recipe 🎲</button>
-</form>
+    .search-bar {
+        width: 100%;
+        padding: 25px 30px;
+        font-size: 1.2rem;
+        border: 3px solid rgba(255, 107, 53, 0.3);
+        border-radius: 60px;
+        background: #1a1a1a;
+        color: #ffffff;
+        transition: all 0.3s;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
 
-{% if error %}
-<div class="recipe-card" style="margin-top: 40px; background: #ffe6e6; border: 2px solid #ff4444;">
-    <p style="color: #cc0000; font-weight: bold;">⚠️ {{ error }}</p>
+    .search-bar:focus {
+        outline: none;
+        border-color: #FF6B35;
+        box-shadow: 0 0 40px rgba(255, 107, 53, 0.5), 0 10px 60px rgba(0, 0, 0, 0.4);
+        transform: scale(1.02);
+    }
+
+    .search-bar::placeholder {
+        color: #666;
+    }
+
+    .options-toggle {
+        display: inline-block;
+        margin-top: 20px;
+        color: #FF6B35;
+        cursor: pointer;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .options-toggle:hover {
+        color: #FF8C42;
+    }
+
+    .advanced-options {
+        display: none;
+        margin-top: 30px;
+        background: #1a1a1a;
+        padding: 30px;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 107, 53, 0.3);
+    }
+
+    .advanced-options.show {
+        display: block;
+        animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .option-group {
+        margin-bottom: 25px;
+        text-align: left;
+    }
+
+    .option-group label {
+        color: #FF6B35;
+        font-size: 1rem;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .option-group select,
+    .option-group input {
+        background: #2d2d2d;
+        border: 2px solid rgba(255, 107, 53, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        color: #ffffff;
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+
+    .option-group select:focus,
+    .option-group input:focus {
+        border-color: #FF6B35;
+        box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+    }
+
+    .generate-btn {
+        background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+        color: #000000;
+        padding: 20px 50px;
+        border: none;
+        border-radius: 60px;
+        cursor: pointer;
+        font-size: 1.3rem;
+        font-weight: 800;
+        transition: all 0.3s;
+        box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
+        margin-top: 20px;
+    }
+
+    .generate-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(255, 107, 53, 0.6);
+    }
+
+    .error-message {
+        background: rgba(255, 68, 68, 0.2);
+        border: 2px solid #ff4444;
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 30px;
+        color: #ff6666;
+        font-weight: 600;
+    }
+</style>
+
+<div class="search-container">
+    <h1 class="main-title">What's in your fridge?</h1>
+    <p class="subtitle">Enter your ingredients and let AI create magic ✨</p>
+
+    <form method="POST" action="/generate" class="search-form">
+        <input 
+            type="text" 
+            name="ingredients" 
+            class="search-bar" 
+            placeholder="chicken, rice, tomatoes, garlic..." 
+            required
+            autofocus
+        >
+
+        <a href="javascript:void(0)" onclick="toggleOptions()" class="options-toggle">
+            ⚙️ More Options
+        </a>
+
+        <div id="advancedOptions" class="advanced-options">
+            <div class="option-group">
+                <label for="cuisine">Cuisine Preference</label>
+                <select id="cuisine" name="cuisine">
+                    <option value="">Any Cuisine</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Indian">Indian</option>
+                    <option value="American">American</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Thai">Thai</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                </select>
+            </div>
+
+            <div class="option-group">
+                <label for="time">Max Cooking Time (minutes)</label>
+                <input type="number" id="time" name="time" value="30" min="5" max="180">
+            </div>
+        </div>
+
+        <button type="submit" class="generate-btn">Generate Recipe 🚀</button>
+    </form>
+
+    {% if error %}
+    <div class="error-message">
+        ⚠️ {{ error }}
+    </div>
+    {% endif %}
 </div>
-{% endif %}
 
-{% if generated_recipe %}
-<div class="recipe-card" style="margin-top: 40px; background: #f9f9f9;">
-    <h3>{{ generated_recipe.name }}</h3>
-    <p><strong>Cuisine:</strong> {{ generated_recipe.cuisine }}</p>
-    <p><strong>Cooking Time:</strong> {{ generated_recipe.cooking_time }} minutes</p>
-    <p style="margin-top: 15px;"><strong>Ingredients:</strong></p>
-    <p>{{ generated_recipe.ingredients }}</p>
-    <p style="margin-top: 15px;"><strong>Instructions:</strong></p>
-    <p>{{ generated_recipe.instructions }}</p>
-</div>
-{% endif %}
+<script>
+    function toggleOptions() {
+        const options = document.getElementById('advancedOptions');
+        options.classList.toggle('show');
+    }
+</script>
 {% endblock %}

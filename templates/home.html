@@ -3,22 +3,112 @@
 {% block title %}Home - Build-A-Meal{% endblock %}
 
 {% block content %}
-<h2>Welcome to Build-A-Meal! 🎉</h2>
-<p style="font-size: 18px; color: #666; margin: 20px 0;">Your AI-powered recipe generator is ready to help you discover amazing meals!</p>
+<style>
+    .hero-section {
+        text-align: center;
+        padding: 80px 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
-<h3 style="margin-top: 40px; margin-bottom: 20px;">Featured Recipes</h3>
-{% if recipes %}
-<div class="recipe-grid">
-    {% for recipe in recipes %}
-    <div class="recipe-card">
-        <h3>{{ recipe.title }}</h3>
-        <p><strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes</p>
-        <p style="margin-top: 10px;"><strong>Key Ingredients:</strong></p>
-        <p style="color: #666;">{{ recipe.ingredients[:100] }}...</p>
-    </div>
-    {% endfor %}
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 30px;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        color: #999;
+        margin-bottom: 50px;
+        line-height: 1.6;
+    }
+
+    .cta-button {
+        background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+        color: #000000;
+        padding: 20px 50px;
+        border: none;
+        border-radius: 60px;
+        cursor: pointer;
+        font-size: 1.4rem;
+        font-weight: 800;
+        transition: all 0.3s;
+        box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(255, 107, 53, 0.6);
+    }
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 80px;
+    }
+
+    .feature {
+        background: #2d2d2d;
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 107, 53, 0.2);
+        transition: all 0.3s;
+    }
+
+    .feature:hover {
+        border-color: #FF6B35;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .feature-title {
+        color: #FF6B35;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .feature-desc {
+        color: #999;
+        line-height: 1.6;
+    }
+</style>
+
+<div class="hero-section">
+    <h1 class="hero-title">Turn Leftovers Into Masterpieces</h1>
+    <p class="hero-subtitle">AI-powered recipe generation from whatever's in your fridge. No waste, just taste.</p>
+    <a href="/generate" class="cta-button">Start Creating →</a>
 </div>
-{% else %}
-<p style="text-align: center; color: #999; padding: 40px;">No recipes available yet. Check back soon!</p>
-{% endif %}
+
+<div class="features">
+    <div class="feature">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-title">AI-Powered</div>
+        <div class="feature-desc">Advanced AI creates custom recipes tailored to your ingredients</div>
+    </div>
+    <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Instant Results</div>
+        <div class="feature-desc">Get complete recipes with ingredients and instructions in seconds</div>
+    </div>
+    <div class="feature">
+        <div class="feature-icon">🌍</div>
+        <div class="feature-title">Any Cuisine</div>
+        <div class="feature-desc">From Italian to Thai, create dishes from around the world</div>
+    </div>
+</div>
 {% endblock %}

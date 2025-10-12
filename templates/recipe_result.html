@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Recipe Result - Build-A-Meal{% endblock %}
+
+{% block content %}
+<style>
+    .result-container {
+        max-width: 900px;
+        margin: 0 auto;
+        animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .recipe-header {
+        text-align: center;
+        margin-bottom: 50px;
+        padding-bottom: 30px;
+        border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+    }
+
+    .recipe-title {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+    }
+
+    .recipe-meta {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .meta-item {
+        background: #2d2d2d;
+        padding: 15px 30px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 107, 53, 0.3);
+    }
+
+    .meta-label {
+        color: #999;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+    .meta-value {
+        color: #FF6B35;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .recipe-section {
+        background: #2d2d2d;
+        padding: 35px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(255, 107, 53, 0.2);
+    }
+
+    .section-title {
+        color: #FF6B35;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        font-weight: 700;
+    }
+
+    .ingredient-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .ingredient-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+        color: #cccccc;
+        font-size: 1.1rem;
+    }
+
+    .ingredient-list li:before {
+        content: "🔸";
+        margin-right: 15px;
+        color: #FF6B35;
+    }
+
+    .ingredient-list li:last-child {
+        border-bottom: none;
+    }
+
+    .instructions {
+        color: #cccccc;
+        line-height: 1.9;
+        font-size: 1.1rem;
+        white-space: pre-line;
+    }
+
+    .back-btn {
+        background: #2d2d2d;
+        color: #FF6B35;
+        padding: 15px 35px;
+        border: 2px solid #FF6B35;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: 700;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 30px;
+    }
+
+    .back-btn:hover {
+        background: #FF6B35;
+        color: #000000;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
+    }
+</style>
+
+<div class="result-container">
+    <div class="recipe-header">
+        <h1 class="recipe-title">{{ recipe.name }}</h1>
+        <div class="recipe-meta">
+            <div class="meta-item">
+                <div class="meta-label">Cuisine</div>
+                <div class="meta-value">{{ recipe.cuisine }}</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Cooking Time</div>
+                <div class="meta-value">{{ recipe.cooking_time }} min</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="recipe-section">
+        <h2 class="section-title">🛒 Ingredients</h2>
+        <ul class="ingredient-list">
+            {% for ingredient in recipe.ingredients.split('\n') %}
+                {% if ingredient.strip() %}
+                    <li>{{ ingredient.strip() }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="recipe-section">
+        <h2 class="section-title">👨‍🍳 Instructions</h2>
+        <div class="instructions">{{ recipe.instructions }}</div>
+    </div>
+
+    <a href="/generate" class="back-btn">← Generate Another Recipe</a>
+</div>
+{% endblock %}

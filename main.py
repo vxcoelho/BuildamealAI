@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 import os
 from models import db, Recipe
 from openai import OpenAI
@@ -32,6 +32,9 @@ except Exception as e:
     ai_client = None
 
 app = Flask(__name__)
+
+# Secret key for sessions
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///recipes.db')
@@ -216,12 +219,23 @@ Instructions:
                     'instructions': '\n'.join(recipe_instructions) if recipe_instructions else ai_text
                 }
                 
+                # Store recipe in session and redirect to result page
+                session['generated_recipe'] = generated_recipe
+                return redirect(url_for('recipe_result'))
+                
             except Exception as e:
                 # Show detailed error to help debug Railway issues
                 error = f"AI Error: {str(e)[:200]}"
                 print(f"Full AI Error: {e}")
     
-    return render_template('generate.html', generated_recipe=generated_recipe, error=error, active_tab='generate')
+    return render_template('generate.html', error=error, active_tab='generate')
+
+@app.route('/recipe/result')
+def recipe_result():
+    recipe = session.get('generated_recipe')
+    if not recipe:
+        return redirect(url_for('generate'))
+    return render_template('recipe_result.html', recipe=recipe, active_tab='generate')
 
 @app.route('/favorites')
 def favorites():
