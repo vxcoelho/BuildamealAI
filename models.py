@@ -28,3 +28,15 @@ class MealPlan(db.Model):
     
     def __repr__(self):
         return f'<MealPlan {self.meal_type} on {self.date}>'
+
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)  # 1-5 stars
+    comment = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    recipe = db.relationship('Recipe', backref='reviews')
+    
+    def __repr__(self):
+        return f'<Review {self.rating} stars for Recipe {self.recipe_id}>'

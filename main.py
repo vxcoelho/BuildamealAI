@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import os
-from models import db, Recipe, MealPlan
+from models import db, Recipe, MealPlan, Review
 from openai import OpenAI
 import google.generativeai as genai
 
@@ -466,6 +466,47 @@ def shopping_list():
                          total_nutrition=total_nutrition,
                          meal_count=len(meal_plans),
                          active_tab='planner')
+
+@app.route('/recipe/<int:recipe_id>/review', methods=['POST'])
+def add_review(recipe_id):
+    data = request.json
+    rating = data.get('rating')
+    comment = data.get('comment', '')
+    
+    if not rating or rating < 1 or rating > 5:
+        return {'success': False, 'error': 'Invalid rating'}, 400
+    
+    review = Review(
+        recipe_id=recipe_id,
+        rating=int(rating),
+        comment=comment
+    )
+    db.session.add(review)
+    db.session.commit()
+    
+    # Calculate new average
+    avg_rating = db.session.query(db.func.avg(Review.rating)).filter(Review.recipe_id == recipe_id).scalar()
+    review_count = Review.query.filter_by(recipe_id=recipe_id).count()
+    
+    return {
+        'success': True,
+        'average_rating': round(float(avg_rating), 1) if avg_rating else 0,
+        'review_count': review_count
+    }
+
+# Helper function to get average rating
+def get_recipe_rating(recipe_id):
+    avg_rating = db.session.query(db.func.avg(Review.rating)).filter(Review.recipe_id == recipe_id).scalar()
+    review_count = Review.query.filter_by(recipe_id=recipe_id).count()
+    return {
+        'average': round(float(avg_rating), 1) if avg_rating else 0,
+        'count': review_count
+    }
+
+# Add rating to template context
+@app.context_processor
+def utility_processor():
+    return dict(get_recipe_rating=get_recipe_rating)
 
 if __name__ == '__main__':
     # Railway provides PORT via environment variable
