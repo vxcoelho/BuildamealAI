@@ -205,13 +205,67 @@
             min-width: 100%;
         }
     }
+
+    .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .loading-overlay.show {
+        display: flex;
+    }
+
+    .spinner {
+        width: 80px;
+        height: 80px;
+        border: 6px solid rgba(255, 107, 53, 0.3);
+        border-top: 6px solid #FF6B35;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 30px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .loading-subtext {
+        color: #999;
+        font-size: 1.1rem;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+    }
 </style>
 
 <div class="search-container">
     <h1 class="main-title">What's in your fridge?</h1>
     <p class="subtitle">Enter your ingredients, pick a cuisine, and let AI create magic ✨</p>
 
-    <form method="POST" action="/generate" class="search-form">
+    <form method="POST" action="/generate" class="search-form" id="generateForm">
         <div class="input-row">
             <input 
                 type="text" 
@@ -253,6 +307,13 @@
         <button type="submit" class="generate-btn">Generate Recipe 🚀</button>
     </form>
 
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Crafting Your Recipe...</div>
+        <div class="loading-subtext">AI is working its magic 🪄</div>
+    </div>
+
     {% if error %}
     <div class="error-message">
         ⚠️ {{ error }}
@@ -265,5 +326,10 @@
         const options = document.getElementById('advancedOptions');
         options.classList.toggle('show');
     }
+
+    // Show loading overlay when form is submitted
+    document.getElementById('generateForm').addEventListener('submit', function() {
+        document.getElementById('loadingOverlay').classList.add('show');
+    });
 </script>
 {% endblock %}
