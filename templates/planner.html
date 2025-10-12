@@ -199,13 +199,40 @@
 
 <div class="planner-container">
     <div class="recipe-sidebar">
-        <h3 class="sidebar-title">Recipes</h3>
-        {% for recipe in recipes %}
-        <div class="recipe-item" draggable="true" data-recipe-id="{{ recipe.id }}">
-            <h4>{{ recipe.title }}</h4>
-            <p>⏱️ {{ recipe.cooking_time }} min</p>
+        <h3 class="sidebar-title">Recipes ({{ (breakfast_recipes|length + lunch_recipes|length + dinner_recipes|length) }})</h3>
+        
+        <!-- Breakfast Section -->
+        <div class="meal-section">
+            <h4 style="color: #FFD700; margin: 15px 0 10px 0; font-size: 1.1rem;">🍳 Breakfast ({{ breakfast_recipes|length }})</h4>
+            {% for recipe in breakfast_recipes %}
+            <div class="recipe-item" draggable="true" data-recipe-id="{{ recipe.id if recipe.id is defined else recipe['id'] }}">
+                <h4>{{ recipe.title if recipe.title is defined else recipe['title'] }}</h4>
+                <p>🌍 {{ recipe.cuisine if recipe.cuisine is defined else recipe['cuisine'] }} | ⏱️ {{ recipe.cooking_time if recipe.cooking_time is defined else recipe['cooking_time'] }} min</p>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        
+        <!-- Lunch Section -->
+        <div class="meal-section">
+            <h4 style="color: #FFD700; margin: 20px 0 10px 0; font-size: 1.1rem;">🍱 Lunch ({{ lunch_recipes|length }})</h4>
+            {% for recipe in lunch_recipes %}
+            <div class="recipe-item" draggable="true" data-recipe-id="{{ recipe.id if recipe.id is defined else recipe['id'] }}">
+                <h4>{{ recipe.title if recipe.title is defined else recipe['title'] }}</h4>
+                <p>🌍 {{ recipe.cuisine if recipe.cuisine is defined else recipe['cuisine'] }} | ⏱️ {{ recipe.cooking_time if recipe.cooking_time is defined else recipe['cooking_time'] }} min</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Dinner Section -->
+        <div class="meal-section">
+            <h4 style="color: #FFD700; margin: 20px 0 10px 0; font-size: 1.1rem;">🍽️ Dinner ({{ dinner_recipes|length }})</h4>
+            {% for recipe in dinner_recipes %}
+            <div class="recipe-item" draggable="true" data-recipe-id="{{ recipe.id if recipe.id is defined else recipe['id'] }}">
+                <h4>{{ recipe.title if recipe.title is defined else recipe['title'] }}</h4>
+                <p>🌍 {{ recipe.cuisine if recipe.cuisine is defined else recipe['cuisine'] }} | ⏱️ {{ recipe.cooking_time if recipe.cooking_time is defined else recipe['cooking_time'] }} min</p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="calendar-container">

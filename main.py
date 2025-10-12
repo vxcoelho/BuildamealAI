@@ -262,9 +262,75 @@ def about():
 def planner():
     from datetime import datetime, timedelta
     from collections import defaultdict
+    import requests
     
-    # Get all recipes for drag and drop
-    recipes = Recipe.query.all()
+    # Get database recipes
+    db_recipes = Recipe.query.all()
+    
+    # Fetch popular recipes from TheMealDB for more variety, categorized by meal type
+    breakfast_recipes = []
+    lunch_recipes = []
+    dinner_recipes = []
+    
+    try:
+        # Define cuisines for different meal types
+        breakfast_cuisines = [('American', 6), ('British', 6)]  # 12 breakfast items
+        lunch_cuisines = [('Italian', 7), ('Japanese', 7)]  # 14 lunch items
+        dinner_cuisines = [('Chinese', 8), ('Mexican', 8), ('Indian', 8)]  # 24 dinner items
+        
+        # Fetch breakfast recipes
+        for cuisine, count in breakfast_cuisines:
+            response = requests.get(f'https://www.themealdb.com/api/json/v1/1/filter.php?a={cuisine}')
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('meals'):
+                    for meal in data['meals'][:count]:
+                        breakfast_recipes.append({
+                            'id': f"api_{meal['idMeal']}",
+                            'title': meal['strMeal'],
+                            'cuisine': cuisine,
+                            'cooking_time': 20,
+                            'meal_type': 'breakfast',
+                            'image': meal.get('strMealThumb')
+                        })
+        
+        # Fetch lunch recipes
+        for cuisine, count in lunch_cuisines:
+            response = requests.get(f'https://www.themealdb.com/api/json/v1/1/filter.php?a={cuisine}')
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('meals'):
+                    for meal in data['meals'][:count]:
+                        lunch_recipes.append({
+                            'id': f"api_{meal['idMeal']}",
+                            'title': meal['strMeal'],
+                            'cuisine': cuisine,
+                            'cooking_time': 30,
+                            'meal_type': 'lunch',
+                            'image': meal.get('strMealThumb')
+                        })
+        
+        # Fetch dinner recipes
+        for cuisine, count in dinner_cuisines:
+            response = requests.get(f'https://www.themealdb.com/api/json/v1/1/filter.php?a={cuisine}')
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('meals'):
+                    for meal in data['meals'][:count]:
+                        dinner_recipes.append({
+                            'id': f"api_{meal['idMeal']}",
+                            'title': meal['strMeal'],
+                            'cuisine': cuisine,
+                            'cooking_time': 45,
+                            'meal_type': 'dinner',
+                            'image': meal.get('strMealThumb')
+                        })
+    except Exception as e:
+        print(f"Error fetching TheMealDB recipes: {e}")
+    
+    # Add database recipes to dinner (or categorize them if they have meal_type)
+    for recipe in db_recipes:
+        dinner_recipes.append(recipe)
     
     # Get current week (Monday to Sunday)
     today = datetime.now().date()
@@ -286,7 +352,9 @@ def planner():
         }
     
     return render_template('planner.html', 
-                         recipes=recipes, 
+                         breakfast_recipes=breakfast_recipes,
+                         lunch_recipes=lunch_recipes,
+                         dinner_recipes=dinner_recipes,
                          week_dates=week_dates,
                          planned_meals=dict(planned_meals),
                          active_tab='planner')
@@ -294,10 +362,53 @@ def planner():
 @app.route('/planner/add', methods=['POST'])
 def add_meal_plan():
     from datetime import datetime
+    import requests
     data = request.json
     recipe_id = data.get('recipe_id')
     date_str = data.get('date')
     meal_type = data.get('meal_type')
+    
+    # Check if this is an API recipe (starts with "api_")
+    if str(recipe_id).startswith('api_'):
+        # Fetch full recipe details from TheMealDB and save to database
+        api_id = str(recipe_id).replace('api_', '')
+        try:
+            response = requests.get(f'https://www.themealdb.com/api/json/v1/1/lookup.php?i={api_id}')
+            if response.status_code == 200:
+                data_api = response.json()
+                if data_api.get('meals'):
+                    meal = data_api['meals'][0]
+                    
+                    # Build ingredients list
+                    ingredients = []
+                    for i in range(1, 21):
+                        ingredient = meal.get(f'strIngredient{i}')
+                        measure = meal.get(f'strMeasure{i}')
+                        if ingredient and ingredient.strip():
+                            ingredients.append(f"- {measure} {ingredient}".strip())
+                    
+                    # Check if recipe already exists in database
+                    existing = Recipe.query.filter_by(title=meal['strMeal']).first()
+                    if existing:
+                        recipe_id = existing.id
+                    else:
+                        # Save new recipe to database
+                        new_recipe = Recipe(
+                            title=meal['strMeal'],
+                            ingredients='\n'.join(ingredients),
+                            instructions=meal.get('strInstructions', 'No instructions available'),
+                            cooking_time=30,
+                            cuisine=meal.get('strArea', 'International'),
+                            calories=500,  # Default values
+                            protein=25,
+                            carbs=50
+                        )
+                        db.session.add(new_recipe)
+                        db.session.commit()
+                        recipe_id = new_recipe.id
+        except Exception as e:
+            print(f"Error fetching API recipe: {e}")
+            return {'success': False, 'error': str(e)}, 400
     
     # Delete existing meal plan for this slot if any
     MealPlan.query.filter_by(
