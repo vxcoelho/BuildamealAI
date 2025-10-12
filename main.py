@@ -166,7 +166,9 @@ def generate():
             try:
                 # Create AI prompt for recipe generation
                 cuisine_text = f"{cuisine} " if cuisine and cuisine != 'Any' else ""
-                prompt = f"""You are a creative chef. Create a delicious {cuisine_text}recipe using these ingredients: {ingredients}
+                prompt = f"""You are a creative chef. Create a delicious {cuisine_text}recipe using ONLY these ingredients: {ingredients}
+
+IMPORTANT: You must ONLY use the ingredients listed above. Do NOT add any extra ingredients or suggest substitutions. Work with exactly what is provided.
 
 The recipe should take about {time} minutes to cook.
 
@@ -175,10 +177,10 @@ Recipe Name: [creative name]
 Cuisine: {cuisine if cuisine else 'International'}
 Cooking Time: {time} minutes
 Ingredients:
-- [list all ingredients with quantities]
+- [list ONLY the ingredients provided, with quantities]
 
 Instructions:
-[step by step cooking instructions]"""
+[step by step cooking instructions using ONLY the provided ingredients]"""
 
                 # Call AI API (OpenAI or Gemini)
                 if ai_type == "openai":
