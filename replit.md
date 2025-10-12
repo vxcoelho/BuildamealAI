@@ -13,6 +13,24 @@ Build A Meal is an AI-powered recipe generator web application built with Flask 
 
 ## Recent Changes
 
+### October 12, 2025 - Recipe Search & Filter System
+- **Smart Search Bar:** Real-time search by recipe name or ingredients with instant results
+- **Cuisine Filters:** Filter recipes by Italian, Mexican, American, or Asian cuisine
+- **Time Filters:** Quick (<20min), Medium (20-45min), Long (45+min) cooking time filters
+- **Recipe Cards Grid:** Responsive grid layout displaying all recipes with details
+- **Combined Filtering:** All filters work together with AND logic for precise results
+- **No Results Message:** Helpful feedback when no recipes match current filters
+- **Clear All Filters:** One-click reset of search and all active filters
+- **Database Schema Update:** Added cuisine field to Recipe model (VARCHAR 50)
+- **Recipe Categorization:** All 10 sample recipes now have proper cuisine assignments
+- **Client-Side Performance:** Instant filtering with no server roundtrips
+
+### October 12, 2025 - Premium Icon Upgrade
+- **Professional Photography:** Replaced emoji icons with high-end stock images
+- **Feature Icons:** AI technology (circuit board), Lightning (energy bolt), Globe (world cuisine)
+- **Circular Design:** 100px circular frames with orange border and hover effects
+- **Visual Polish:** Images scale and glow on hover for premium interaction
+
 ### October 12, 2025 - Meal Planning & Calendar Feature
 - **Weekly Calendar:** Drag-and-drop meal planner with Monday-Sunday weekly view
 - **Meal Organization:** Three meal types per day (breakfast, lunch, dinner) with visual calendar grid
@@ -135,7 +153,8 @@ Preferred communication style: Simple, everyday language.
 
 **Current State:**
 - PostgreSQL database via SQLAlchemy ORM
-- Recipe model with 4 fields (id, title, ingredients, instructions, cooking_time)
+- Recipe model with 8 fields (id, title, ingredients, instructions, cooking_time, cuisine, calories, protein, carbs)
+- MealPlan model for weekly meal planning
 - 10 seeded sample recipes covering various cuisines
 - SQLite fallback for local development
 
@@ -147,6 +166,17 @@ Recipe:
   - ingredients (Text)
   - instructions (Text)
   - cooking_time (Integer, minutes)
+  - cuisine (String, 50 chars) - Italian, Mexican, American, Asian, Other
+  - calories (Integer, default 0)
+  - protein (Integer, default 0)
+  - carbs (Integer, default 0)
+
+MealPlan:
+  - id (Integer, Primary Key)
+  - recipe_id (Integer, Foreign Key to Recipe)
+  - date (Date)
+  - meal_type (String, 20 chars) - breakfast, lunch, dinner
+  - created_at (DateTime)
 ```
 
 ### Authentication & Authorization
