@@ -13,17 +13,19 @@ Build A Meal is an AI-powered recipe generator web application built with Flask 
 
 ## Recent Changes
 
-### October 12, 2025 - Recipe Search & Filter System
-- **Smart Search Bar:** Real-time search by recipe name or ingredients with instant results
-- **Cuisine Filters:** Filter recipes by Italian, Mexican, American, or Asian cuisine
-- **Time Filters:** Quick (<20min), Medium (20-45min), Long (45+min) cooking time filters
-- **Recipe Cards Grid:** Responsive grid layout displaying all recipes with details
-- **Combined Filtering:** All filters work together with AND logic for precise results
-- **No Results Message:** Helpful feedback when no recipes match current filters
-- **Clear All Filters:** One-click reset of search and all active filters
-- **Database Schema Update:** Added cuisine field to Recipe model (VARCHAR 50)
-- **Recipe Categorization:** All 10 sample recipes now have proper cuisine assignments
-- **Client-Side Performance:** Instant filtering with no server roundtrips
+### October 12, 2025 - Unlimited Recipe Search via TheMealDB API
+- **TheMealDB Integration:** Connected to free, unlimited recipe database (no API key required)
+- **Thousands of Recipes:** Access to real recipes from around the world via internet API
+- **26 World Cuisines:** Dropdown filter with American, British, Chinese, French, Indian, Italian, Japanese, Mexican, Thai, Vietnamese, and 16+ more
+- **3 Search Modes:**
+  - **Cuisine Only:** Browse all recipes from selected cuisine (e.g., "Italian")
+  - **Text Search Only:** Find recipes by name or ingredient (e.g., "chicken soup")
+  - **Combined Filter:** Select cuisine AND search by text (e.g., "Mexican" + "chicken")
+- **Smart API Usage:** Limits to 12 results per cuisine filter, fetches full recipe details with ingredients/instructions
+- **Empty State Design:** No recipes shown by default until user searches (clean luxury aesthetic)
+- **Robust Error Handling:** Defensive null checks for all recipe fields, network error handling
+- **Professional Recipe Cards:** Displays recipe images, title, cuisine/category, ingredients list, instruction preview
+- **100% Free:** No API keys, no rate limits, no costs - completely free unlimited access
 
 ### October 12, 2025 - Premium Icon Upgrade
 - **Professional Photography:** Replaced emoji icons with high-end stock images
@@ -118,7 +120,7 @@ Preferred communication style: Simple, everyday language.
 **Template Structure:**
 - `base.html`: Master template with navigation and shared styles
 - `home.html`: Featured recipes (6 random from database)
-- `browse.html`: All recipes with full details
+- `browse.html`: Unlimited recipe search via TheMealDB API with cuisine filter and text search
 - `generate.html`: AI recipe generation form
 - `favorites.html`: Placeholder for future favorites feature
 - `about.html`: Application information and features
@@ -134,7 +136,7 @@ Preferred communication style: Simple, everyday language.
 
 **Routes:**
 - `/` - Home page with featured recipes
-- `/browse` - Browse all recipes
+- `/browse` - Unlimited recipe search via TheMealDB API (cuisine filter + text search)
 - `/generate` - AI recipe generator (POST support for form submission)
 - `/favorites` - My Favorites page
 - `/about` - About page
