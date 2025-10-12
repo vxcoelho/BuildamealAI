@@ -159,6 +159,51 @@
         color: #999;
         font-size: 1.3rem;
     }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .search-form {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1 !important;
+            width: 100% !important;
+        }
+
+        .search-btn {
+            width: 100%;
+            padding: 16px;
+        }
+
+        .recipes-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .browse-title {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .browse-header {
+            padding: 30px 15px;
+        }
+
+        .browse-title {
+            font-size: 1.7rem;
+        }
+
+        .recipe-title {
+            font-size: 1.5rem;
+        }
+
+        .recipe-card {
+            padding: 20px;
+        }
+    }
 </style>
 
 <div class="browse-header">

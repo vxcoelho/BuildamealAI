@@ -188,6 +188,61 @@
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
     }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .planner-container {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .recipe-sidebar {
+            order: -1;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .calendar-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .day-column {
+            min-width: 100%;
+        }
+
+        .calendar-header {
+            flex-direction: column;
+            gap: 15px;
+            align-items: stretch;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .btn-primary {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .recipe-item h4 {
+            font-size: 0.95rem;
+        }
+
+        .day-header {
+            font-size: 1rem;
+            padding: 12px;
+        }
+
+        .meal-slot {
+            padding: 10px;
+            min-height: 80px;
+        }
+    }
 </style>
 
 <div class="calendar-header">
