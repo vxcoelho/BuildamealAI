@@ -13,6 +13,13 @@ Build A Meal is an AI-powered recipe generator web application built with Flask 
 
 ## Recent Changes
 
+### October 12, 2025 - Video Background & Header Enhancement
+- **Video Background Support:** Home page hero now supports HTML5 video backgrounds for dynamic cooking scenes
+- **Graceful Fallback:** Dual-layer fallback system ensures static image shows if video unavailable
+- **Header Background:** Added subtle food photography background to navigation header with dark gradient overlay
+- **Setup Instructions:** Complete guide for adding free cooking videos from Pexels, Pixabay, or Mixkit
+- **Performance Optimized:** Video auto-plays muted with loop, poster frame prevents flash
+
 ### October 12, 2025 - Simplified AI Generator Interface
 - **Cuisine Dropdown Visible:** Moved cuisine selection from hidden advanced options to main interface
 - **Side-by-Side Layout:** Ingredients input and cuisine dropdown displayed together
