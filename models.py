@@ -9,6 +9,7 @@ class Recipe(db.Model):
     ingredients = db.Column(db.Text, nullable=False)
     instructions = db.Column(db.Text, nullable=False)
     cooking_time = db.Column(db.Integer, nullable=False)
+    cuisine = db.Column(db.String(50), default='Other')
     calories = db.Column(db.Integer, default=0)
     protein = db.Column(db.Integer, default=0)
     carbs = db.Column(db.Integer, default=0)
