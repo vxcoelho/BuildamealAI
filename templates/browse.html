@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Browse Recipes - Build-A-Meal{% endblock %}
+{% block title %}Browse Recipes - Build A Meal{% endblock %}
 
 {% block content %}
 <style>
@@ -10,12 +10,15 @@
     }
 
     .browse-title {
-        font-size: 3rem;
-        background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+        font-family: 'Playfair Display', serif;
+        font-size: 3.5rem;
+        background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         margin-bottom: 15px;
+        letter-spacing: 2px;
+        font-weight: 800;
     }
 
     .browse-subtitle {
@@ -59,9 +62,12 @@
     }
 
     .cta-box h3 {
+        font-family: 'Playfair Display', serif;
         color: #FF6B35;
-        font-size: 2rem;
+        font-size: 2.5rem;
         margin-bottom: 20px;
+        letter-spacing: 1px;
+        font-weight: 700;
     }
 
     .cta-box p {
