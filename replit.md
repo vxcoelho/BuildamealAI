@@ -13,6 +13,14 @@ Build A Meal is an AI-powered recipe generator web application built with Flask 
 
 ## Recent Changes
 
+### October 12, 2025 - Simplified AI Generator Interface
+- **Cuisine Dropdown Visible:** Moved cuisine selection from hidden advanced options to main interface
+- **Side-by-Side Layout:** Ingredients input and cuisine dropdown displayed together
+- **Visual Enhancements:** Added emoji flags to cuisines (🍝 Italian, 🌮 Mexican, 🥢 Chinese, etc.)
+- **Streamlined Flow:** Simple 3-step process - enter ingredients, select cuisine, generate recipe
+- **Responsive Design:** Grid layout that stacks vertically on mobile devices
+- **12 Cuisines Available:** Italian, Mexican, Chinese, Indian, American, Japanese, Thai, French, Mediterranean, Korean, Vietnamese, Greek
+
 ### October 12, 2025 - Luxury Design Overhaul & Animated Hero
 - **Branding Update:** Changed from "Build A Meal" to "Build a Meal" (lowercase 'a')
 - **Animated Hero Background:** Cinematic cooking scene with zoom/pulse animation and gradient color shifts
