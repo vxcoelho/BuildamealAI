@@ -301,26 +301,8 @@
     }
 </style>
 
-<!-- Video Background with Particles -->
-<div class="hero-background">
-    <video autoplay muted loop playsinline poster="/static/hero-cooking.jpg" preload="auto">
-        <source src="/static/cooking-video.mp4" type="video/mp4">
-        <!-- Fallback: Static background image will show if video doesn't load -->
-    </video>
-</div>
-
-<script>
-// Optimize video playback to reduce choppiness
-document.addEventListener('DOMContentLoaded', function() {
-    const video = document.querySelector('.hero-background video');
-    if (video) {
-        // Reduce playback quality for smoother performance
-        video.playbackRate = 1.0;
-        // Try to play video
-        video.play().catch(e => console.log('Video autoplay failed:', e));
-    }
-});
-</script>
+<!-- Static Image Background with Particles -->
+<div class="hero-background"></div>
 <div class="particle"></div>
 <div class="particle"></div>
 <div class="particle"></div>
