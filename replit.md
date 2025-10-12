@@ -1,8 +1,8 @@
-# Build-A-Meal
+# Build A Meal
 
 ## Overview
 
-Build-A-Meal is an AI-powered recipe generator web application built with Flask and PostgreSQL. The application features a tab-based navigation system with 5 main sections: Home (featured recipes), Browse Recipes (full recipe collection), AI Generator (custom recipe generation), My Favorites (planned feature), and About.
+Build A Meal is an AI-powered recipe generator web application built with Flask and PostgreSQL. The application features a modern orange and black luxury design with tab-based navigation across 5 main sections: Home (featured recipes), Browse Recipes (full recipe collection), AI Generator (custom recipe generation), My Favorites (planned feature), and About.
 
 **Tech Stack:**
 - **Backend:** Python Flask web framework
@@ -12,6 +12,20 @@ Build-A-Meal is an AI-powered recipe generator web application built with Flask 
 - **Deployment:** Railway-ready with Procfile
 
 ## Recent Changes
+
+### October 12, 2025 - Luxury Design Upgrade
+- **Premium Typography:** Implemented Google Fonts with Playfair Display (serif) for all headings and Poppins (sans-serif) for body text
+- **Branding Update:** Removed hyphen from "Build-A-Meal" → "Build A Meal" across entire website
+- **Food Imagery:** Added professional stock photography background (chef cutting vegetables) with subtle opacity overlay
+- **Color Scheme Refinement:** Enhanced gradients from orange to gold (#FF6B35 to #FFD700) for premium aesthetic
+- **Luxury Design Elements:** 
+  - Increased font sizes and letter-spacing for elegant typography
+  - All heading levels (h1-h6) now use Playfair Display serif font
+  - Consistent dark theme with high-contrast light text (#cccccc) for readability
+  - Premium gradient effects and enhanced shadows throughout
+  - Orange (#FF6B35) accent colors for sophisticated visual hierarchy
+- **Visual Consistency:** Fixed readability across all pages (About, Favorites) with proper light text on dark backgrounds
+- **Static Assets:** Created /static folder for background images and assets
 
 ### October 11, 2025 - AI Recipe Generation Integration (FREE!)
 - **Real AI Integration:** Implemented AI-powered recipe generation
@@ -57,7 +71,9 @@ Preferred communication style: Simple, everyday language.
 **Current Implementation:**
 - Tab-based navigation with 5 main sections
 - Base template inheritance pattern for consistent UI/UX
-- Inline CSS styling with purple/blue gradient theme
+- Luxury orange and black color scheme with premium typography
+- Google Fonts: Playfair Display (headings) and Poppins (body)
+- Professional food photography background with opacity overlay
 - Responsive grid layout for recipe cards
 - Active tab highlighting for navigation feedback
 
