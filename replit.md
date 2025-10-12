@@ -31,10 +31,10 @@ The application features a luxury orange and black design with premium typograph
 
 ### Feature Specifications
 - **Tab Navigation:** 5 main tabs: Home (featured recipes), Browse Recipes (TheMealDB integration), AI Generator, My Favorites (placeholder), About.
-- **AI Generator:** Allows users to input ingredients and select from 12 cuisines to generate new recipes.
+- **AI Generator:** Allows users to input ingredients and select from 12 cuisines to generate new recipes. Advanced options include dietary preferences (Vegetarian, Vegan, Gluten-Free, Dairy-Free, Keto, Paleo, Low-Carb) and allergy specifications to ensure recipes meet specific dietary needs.
 - **Browse Recipes:** Provides filters for 26 world cuisines and text search capabilities.
 - **Meal Planner:** Weekly calendar interface for planning breakfast, lunch, and dinner, with automatic shopping list generation.
-- **Animated Hero Section:** Home page features dynamic video backgrounds with graceful fallbacks, animated particles, and subtle zoom/pulse effects.
+- **Hero Section:** Home page features a static high-quality cooking image background with animated particles and subtle zoom/pulse effects for a premium feel without video playback issues.
 
 ### System Design Choices
 - **Modular Structure:** Routes and database models are separated for clarity and maintainability.
