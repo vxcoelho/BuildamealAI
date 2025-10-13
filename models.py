@@ -5,11 +5,11 @@ db = SQLAlchemy()
 
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(100), nullable=False, index=True)
     ingredients = db.Column(db.Text, nullable=False)
     instructions = db.Column(db.Text, nullable=False)
     cooking_time = db.Column(db.Integer, nullable=False)
-    cuisine = db.Column(db.String(50), default='Other')
+    cuisine = db.Column(db.String(50), default='Other', index=True)
     calories = db.Column(db.Integer, default=0)
     protein = db.Column(db.Integer, default=0)
     carbs = db.Column(db.Integer, default=0)
@@ -20,8 +20,8 @@ class Recipe(db.Model):
 class MealPlan(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
-    date = db.Column(db.Date, nullable=False)
-    meal_type = db.Column(db.String(20), nullable=False)
+    date = db.Column(db.Date, nullable=False, index=True)
+    meal_type = db.Column(db.String(20), nullable=False, index=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     recipe = db.relationship('Recipe', backref='meal_plans')

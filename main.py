@@ -33,8 +33,8 @@ except Exception as e:
 
 app = Flask(__name__)
 
-# Secret key for sessions
-app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+# Secret key for sessions (generate secure key for production)
+app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24).hex())
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///recipes.db')
