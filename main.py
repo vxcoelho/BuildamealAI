@@ -37,7 +37,15 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24).hex())
 
 # Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///recipes.db')
+# Use Railway PostgreSQL if available, fallback to SQLite for simple deployments
+database_url = os.environ.get('DATABASE_URL', 'sqlite:///recipes.db')
+
+# Fix for Railway: Skip Replit-specific database URLs
+if 'helium' in database_url or 'replit' in database_url.lower():
+    print("⚠️ Detected Replit database URL - using SQLite fallback for Railway deployment")
+    database_url = 'sqlite:///recipes.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)

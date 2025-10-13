@@ -23,7 +23,7 @@ The application features a luxury orange and black design with premium typograph
 ### Technical Implementations
 - **Frontend:** Server-side rendering (SSR) using Flask and Jinja2 templating for dynamic content.
 - **Backend:** Python Flask framework with SQLAlchemy ORM for database interactions.
-- **Database:** PostgreSQL for production, with SQLite fallback for local development. Automatic table creation and seeding of 10 sample recipes on app startup.
+- **Database:** PostgreSQL for production (optional), with SQLite fallback for simple deployments. Automatic Replit database URL detection and fallback. Automatic table creation and seeding of 10 sample recipes on app startup.
 - **AI Integration:** Uses Replit AI Integrations (on Replit) or Google Gemini API (on Railway) for custom recipe generation based on user ingredients and cuisine preferences. Features a loading indicator during AI generation.
 - **Recipe Search:** Integrates with TheMealDB API for unlimited access to a vast collection of recipes, offering search by cuisine, text, or a combination.
 - **Meal Planning:** Includes a drag-and-drop weekly meal planner with features for assigning recipes, removing meals, generating shopping lists, and tracking basic nutrition (calories, protein, carbs).
