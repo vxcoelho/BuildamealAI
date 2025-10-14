@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xavier Coelho - Portfolio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        /* Projects */
+        .projects {
+            padding: 60px 0;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+        
+        .project-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        /* Tech Tags */
+        .tech-tags {
+            margin: 15px 0;
+        }
+        
+        .tech-tag {
+            display: inline-block;
+            background: #e9ecef;
+            color: #495057;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 5px 5px 5px 0;
+            font-weight: 500;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 10px 10px 10px 0;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+        
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <h1>Xavier Coelho</h1>
+            <p>Full-Stack Developer | Python & Flask Specialist</p>
+            <p>Building innovative web solutions with AI integration</p>
+        </div>
+    </header>
+
+    <!-- Projects Section -->
+    <section class="projects">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 50px; font-size: 2.5em;">Featured Projects</h2>
+            
+            <!-- Build-A-Meal Project -->
+            <div class="project-card">
+                <h3>🍳 Build-A-Meal AI</h3>
+                <p>AI-powered recipe generator that creates custom meals from available ingredients using OpenAI integration. Solves the problem of not knowing what to cook with random ingredients.</p>
+                
+                <div class="tech-tags">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">OpenAI API</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Railway</span>
+                    <span class="tech-tag">REST APIs</span>
+                </div>
+                
+                <div>
+                   <a href="https://web-production-8bf7f.up.railway.app/" class="btn">🚀 Live Demo</a>
+                    <a href="https://github.com/vxcoelho/BuildamealAI" class="btn btn-outline">📁 Source Code</a>
+                </div>
+            </div>
+            
+            <!-- Movie Matchmaker Project -->
+            <div class="project-card">
+                <h3>🎬 Movie Matchmaker</h3>
+                <p>Personality-based movie recommendation system using psychological profiling and TMDB API integration. Provides personalized movie suggestions based on user preferences.</p>
+                
+                <div class="tech-tags">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">TMDB API</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Algorithm Design</span>
+                    <span class="tech-tag">Data Analysis</span>
+                </div>
+                
+                <div>
+                    <a href="https://movie-matchmaker.railway.app" class="btn">🚀 Live Demo</a>
+                    <a href="https://github.com/YOUR_USERNAME/movie-matchmaker" class="btn btn-outline">📁 Source Code</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <h3>Let's Connect</h3>
+            <p>Open to new opportunities and collaborations</p>
+            <div style="margin: 20px 0;">
+                <a href="https://linkedin.com/in/yourprofile" class="btn">LinkedIn</a>
+                <a href="https://github.com/yourusername" class="btn">GitHub</a>
+                <a href="mailto:your.email@domain.com" class="btn btn-outline">Email Me</a>
+            </div>
+            <p>&copy; 2024 Xavier Coelho. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+    </footer>
+</body>
+</html>
