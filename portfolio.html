@@ -175,25 +175,45 @@
         }
 
         .tech-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 30px;
+            margin: 25px 0;
+        }
+
+        .tech-list-title {
+            font-size: 14px;
+            color: #86868b;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .tech-item {
-            background: rgba(255, 255, 255, 0.05);
-            color: #f5f5f7;
-            padding: 6px 14px;
-            border-radius: 12px;
-            font-size: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a1a1a6;
+            font-size: 17px;
+            line-height: 1.8;
+            display: block;
         }
 
         .project-links {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .project-link {
+            color: #2997ff;
+            text-decoration: none;
+            font-size: 17px;
+            transition: opacity 0.3s;
+        }
+
+        .project-link:hover {
+            opacity: 0.7;
+        }
+
+        .project-link::after {
+            content: ' ›';
+            margin-left: 4px;
         }
 
         /* Footer */
@@ -219,10 +239,21 @@
 
         .footer-links {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
             margin-bottom: 40px;
+        }
+
+        .footer-link {
+            color: #2997ff;
+            text-decoration: none;
+            font-size: 17px;
+            transition: opacity 0.3s;
+        }
+
+        .footer-link:hover {
+            opacity: 0.7;
         }
 
         .footer .copyright {
@@ -287,7 +318,6 @@
                 font-size: 24px;
             }
 
-            .project-links,
             .hero .buttons {
                 flex-direction: column;
                 width: 100%;
@@ -333,17 +363,13 @@
             <p>Create custom recipes from your ingredients using Google Gemini AI. Browse thousands of recipes, plan your weekly meals, and generate smart shopping lists. Built with modern web technologies and intelligent design.</p>
             
             <div class="tech-list">
-                <span class="tech-item">Python</span>
-                <span class="tech-item">Flask</span>
-                <span class="tech-item">Google Gemini AI</span>
-                <span class="tech-item">PostgreSQL</span>
-                <span class="tech-item">Railway</span>
-                <span class="tech-item">TheMealDB API</span>
+                <div class="tech-list-title">Technologies</div>
+                <span class="tech-item">Python • Flask • Google Gemini AI • PostgreSQL • Railway • TheMealDB API</span>
             </div>
             
             <div class="project-links">
-                <a href="https://web-production-8bf7f.up.railway.app/" class="btn-primary">View live demo</a>
-                <a href="https://github.com/vxcoelho/BuildamealAI" class="btn-outline">View source code</a>
+                <a href="https://web-production-8bf7f.up.railway.app/" class="project-link">View live demo</a>
+                <a href="https://github.com/vxcoelho/BuildamealAI" class="project-link">View source code</a>
             </div>
         </div>
 
@@ -354,16 +380,13 @@
             <p>Advanced recommendation system using personality profiling and TMDB integration. Discover films tailored to your unique preferences and viewing patterns through intelligent algorithms.</p>
             
             <div class="tech-list">
-                <span class="tech-item">Python</span>
-                <span class="tech-item">Flask</span>
-                <span class="tech-item">TMDB API</span>
-                <span class="tech-item">JavaScript</span>
-                <span class="tech-item">Algorithm Design</span>
+                <div class="tech-list-title">Technologies</div>
+                <span class="tech-item">Python • Flask • TMDB API • JavaScript • Algorithm Design</span>
             </div>
             
             <div class="project-links">
-                <a href="#" class="btn-primary">View live demo</a>
-                <a href="https://github.com/vxcoelho" class="btn-outline">View source code</a>
+                <a href="#" class="project-link">View live demo</a>
+                <a href="https://github.com/vxcoelho" class="project-link">View source code</a>
             </div>
         </div>
     </section>
@@ -373,9 +396,9 @@
         <h3>Let's Connect</h3>
         <p>Available for new opportunities and collaborations.</p>
         <div class="footer-links">
-            <a href="https://www.linkedin.com/in/xavier-coelho-30ba631a2/" class="btn-primary">LinkedIn</a>
-            <a href="https://github.com/vxcoelho" class="btn-primary">GitHub</a>
-            <a href="mailto:vxcoelho@icloud.com" class="btn-outline">Email</a>
+            <a href="https://www.linkedin.com/in/xavier-coelho-30ba631a2/" class="footer-link">LinkedIn</a>
+            <a href="https://github.com/vxcoelho" class="footer-link">GitHub</a>
+            <a href="mailto:vxcoelho@icloud.com" class="footer-link">Email</a>
         </div>
         <p class="copyright">&copy; 2025 Xavier Coelho. All rights reserved.</p>
     </footer>
