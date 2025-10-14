@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xavier Coelho - Developer Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Xavier Coelho - Developer</title>
     <style>
         * {
             margin: 0;
@@ -12,414 +11,373 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --pure-black: #000000;
-            --rich-black: #1d1d1f;
-            --silver: #d2d2d7;
-            --light-silver: #f5f5f7;
-            --metallic-silver: linear-gradient(135deg, #e8e8ed 0%, #d2d2d7 50%, #c4c4c9 100%);
-            --accent-gray: #86868b;
-            --glass-white: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --shadow-black: rgba(0, 0, 0, 0.8);
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--pure-black);
-            color: var(--silver);
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
+            color: #f5f5f7;
+            line-height: 1.4;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Clean Apple-Style Background */
-        .starfield {
-            position: fixed;
+        /* Navigation Bar */
+        .nav {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(180deg, #000000 0%, #1d1d1f 100%);
+            z-index: 1000;
+            border-bottom: 1px solid #1d1d1f;
         }
 
-        /* Container */
-        .container {
-            max-width: 1200px;
+        .nav-content {
+            max-width: 980px;
             margin: 0 auto;
-            padding: 0 30px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header Section */
-        .header {
-            padding: 120px 0 80px;
-            text-align: center;
-            position: relative;
-        }
-
-
-        .header h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4.5em;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffffff 0%, var(--silver) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            position: relative;
-        }
-
-        .header .subtitle {
-            font-size: 1.4em;
-            color: var(--silver);
-            font-weight: 500;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .header .tagline {
-            font-size: 1.1em;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 600px;
-            margin: 0 auto;
-            font-weight: 300;
-        }
-
-        /* Section Title */
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3em;
-            text-align: center;
-            margin-bottom: 60px;
-            background: linear-gradient(135deg, #ffffff 0%, var(--silver) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 80px 0;
-        }
-
-        /* Glass Morphism Project Cards */
-        .project-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 40px 0;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
-        }
-
-
-        .project-card::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, var(--silver), var(--accent-gray));
-            border-radius: 20px;
-            opacity: 0;
-            z-index: -1;
-            transition: opacity 0.4s;
-        }
-
-        .project-card:hover {
-            border-color: var(--silver);
-        }
-
-        .project-card:hover::after {
-            opacity: 0.3;
-        }
-
-        .project-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2em;
-            color: #ffffff;
-            margin-bottom: 20px;
+            padding: 0 22px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 15px;
+            height: 48px;
         }
 
-        .project-card p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1em;
-            margin-bottom: 25px;
-            line-height: 1.8;
-        }
-
-        /* Tech Tags */
-        .tech-tags {
-            margin: 25px 0;
+        .nav-links {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            gap: 30px;
+            list-style: none;
         }
 
-        .tech-tag {
-            background: rgba(210, 210, 215, 0.1);
-            border: 1px solid rgba(210, 210, 215, 0.3);
-            color: var(--silver);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-
-        .tech-tag:hover {
-            background: rgba(210, 210, 215, 0.2);
-            border-color: var(--silver);
-            transform: scale(1.05);
-        }
-
-        /* Buttons */
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, var(--silver), var(--accent-gray));
-            color: #000;
-            padding: 14px 30px;
+        .nav-links a {
+            color: #f5f5f7;
             text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 1em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
+            font-size: 12px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
         }
 
-        .btn:hover {
-            opacity: 0.8;
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0 80px;
+            text-align: center;
+            background: #000000;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 600;
+            letter-spacing: -0.005em;
+            color: #f5f5f7;
+            margin-bottom: 8px;
+            line-height: 1.07;
+        }
+
+        .hero .tagline {
+            font-size: 28px;
+            font-weight: 400;
+            color: #a1a1a6;
+            margin-bottom: 30px;
+            line-height: 1.14;
+        }
+
+        .hero .buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .btn-primary {
+            background: #0071e3;
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 980px;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 400;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #0077ed;
         }
 
         .btn-outline {
             background: transparent;
-            border: 2px solid var(--silver);
-            color: var(--silver);
+            color: #2997ff;
+            padding: 12px 22px;
+            border-radius: 980px;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 400;
+            border: 1px solid #2997ff;
+            transition: all 0.3s;
         }
 
         .btn-outline:hover {
-            background: rgba(210, 210, 215, 0.1);
+            background: #2997ff;
+            color: #fff;
+        }
+
+        /* Section */
+        .section {
+            padding: 100px 22px;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 600;
+            color: #f5f5f7;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: -0.003em;
+        }
+
+        /* Project Card */
+        .project {
+            background: #1d1d1f;
+            border-radius: 18px;
+            padding: 50px;
+            margin-bottom: 40px;
+            transition: transform 0.3s;
+        }
+
+        .project:hover {
+            transform: translateY(-4px);
+        }
+
+        .project h3 {
+            font-size: 40px;
+            font-weight: 600;
+            color: #f5f5f7;
+            margin-bottom: 12px;
+            letter-spacing: -0.003em;
+        }
+
+        .project .subtitle {
+            font-size: 24px;
+            color: #a1a1a6;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .project p {
+            font-size: 17px;
+            color: #a1a1a6;
+            line-height: 1.47;
+            margin-bottom: 30px;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .tech-item {
+            background: rgba(255, 255, 255, 0.05);
+            color: #f5f5f7;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
         /* Footer */
         .footer {
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
-            padding: 80px 0 40px;
+            background: #1d1d1f;
+            padding: 60px 22px 40px;
             text-align: center;
             margin-top: 100px;
-            border-top: 1px solid var(--glass-border);
         }
 
         .footer h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5em;
-            color: #ffffff;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-size: 32px;
+            font-weight: 600;
+            color: #f5f5f7;
+            margin-bottom: 10px;
         }
 
         .footer p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1em;
+            font-size: 17px;
+            color: #a1a1a6;
             margin-bottom: 30px;
         }
 
-        .footer .social-links {
-            margin: 30px 0;
+        .footer-links {
             display: flex;
+            gap: 16px;
             justify-content: center;
-            gap: 20px;
             flex-wrap: wrap;
+            margin-bottom: 40px;
         }
 
         .footer .copyright {
-            margin-top: 40px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.95em;
+            font-size: 12px;
+            color: #6e6e73;
+            margin-top: 30px;
         }
 
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.8em;
-                letter-spacing: 2px;
+            .hero h1 {
+                font-size: 40px;
             }
 
-            .header .subtitle {
-                font-size: 1.1em;
+            .hero .tagline {
+                font-size: 21px;
             }
 
             .section-title {
-                font-size: 2em;
+                font-size: 32px;
             }
 
-            .project-card {
-                padding: 30px 20px;
+            .project {
+                padding: 30px;
             }
 
-            .project-card h3 {
-                font-size: 1.5em;
+            .project h3 {
+                font-size: 28px;
             }
 
-            .btn-group {
-                flex-direction: column;
+            .project .subtitle {
+                font-size: 19px;
             }
 
-            .btn {
-                width: 100%;
-                justify-content: center;
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 11px;
             }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 0 20px;
+            .hero h1 {
+                font-size: 32px;
             }
 
-            .header {
-                padding: 80px 0 60px;
-            }
-
-            .header h1 {
-                font-size: 2.2em;
-            }
-
-            .header .subtitle {
-                font-size: 1em;
-            }
-
-            .header .tagline {
-                font-size: 1em;
+            .hero .tagline {
+                font-size: 17px;
             }
 
             .section-title {
-                font-size: 1.6em;
+                font-size: 28px;
             }
 
-            .project-card h3 {
-                font-size: 1.3em;
+            .project {
+                padding: 25px;
+            }
+
+            .project h3 {
+                font-size: 24px;
+            }
+
+            .project-links,
+            .hero .buttons {
                 flex-direction: column;
-                align-items: flex-start;
+                width: 100%;
             }
 
-            .tech-tags {
-                gap: 8px;
-            }
-
-            .tech-tag {
-                font-size: 0.8em;
-                padding: 6px 12px;
+            .btn-primary,
+            .btn-outline {
+                width: 100%;
+                text-align: center;
             }
         }
-
     </style>
 </head>
 <body>
-    <!-- Clean Background -->
-    <div class="starfield"></div>
-
-    <!-- Header Section -->
-    <header class="header">
-        <div class="container">
-            <h1>Xavier Coelho</h1>
-            <p class="subtitle">Full-Stack Developer | AI Integration Specialist</p>
-            <p class="tagline">Building next-generation web solutions with cutting-edge AI technology</p>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <ul class="nav-links">
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Xavier Coelho</h1>
+        <p class="tagline">Full-Stack Developer. AI Integration Specialist.</p>
+        <div class="buttons">
+            <a href="#projects" class="btn-primary">View Projects</a>
+            <a href="mailto:your.email@domain.com" class="btn-outline">Get in touch</a>
+        </div>
+    </section>
 
     <!-- Projects Section -->
-    <section class="projects">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
+    <section class="section" id="projects">
+        <h2 class="section-title">Featured Work</h2>
+
+        <!-- Build-A-Meal Project -->
+        <div class="project">
+            <h3>Build-A-Meal AI</h3>
+            <p class="subtitle">AI-powered recipe generation meets meal planning.</p>
+            <p>Create custom recipes from your ingredients using Google Gemini AI. Browse thousands of recipes, plan your weekly meals, and generate smart shopping lists. Built with modern web technologies and intelligent design.</p>
             
-            <!-- Build-A-Meal Project -->
-            <div class="project-card">
-                <h3>🍳 Build-A-Meal AI</h3>
-                <p>AI-powered recipe generator that creates custom meals from available ingredients using Google Gemini integration. Features meal planning, shopping list generation, dietary preferences support, and unlimited recipe browsing through TheMealDB API.</p>
-                
-                <div class="tech-tags">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">Flask</span>
-                    <span class="tech-tag">Google Gemini AI</span>
-                    <span class="tech-tag">PostgreSQL</span>
-                    <span class="tech-tag">Railway</span>
-                    <span class="tech-tag">REST APIs</span>
-                    <span class="tech-tag">TheMealDB</span>
-                </div>
-                
-                <div class="btn-group">
-                    <a href="https://web-production-8bf7f.up.railway.app/" class="btn">🚀 Live Demo</a>
-                    <a href="https://github.com/vxcoelho/BuildamealAI" class="btn btn-outline">📁 Source Code</a>
-                </div>
+            <div class="tech-list">
+                <span class="tech-item">Python</span>
+                <span class="tech-item">Flask</span>
+                <span class="tech-item">Google Gemini AI</span>
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">Railway</span>
+                <span class="tech-item">TheMealDB API</span>
             </div>
             
-            <!-- Movie Matchmaker Project -->
-            <div class="project-card">
-                <h3>🎬 Movie Matchmaker</h3>
-                <p>Personality-based movie recommendation system using psychological profiling and TMDB API integration. Provides personalized movie suggestions based on user preferences and viewing patterns.</p>
-                
-                <div class="tech-tags">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">Flask</span>
-                    <span class="tech-tag">TMDB API</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">Algorithm Design</span>
-                    <span class="tech-tag">Data Analysis</span>
-                </div>
-                
-                <div class="btn-group">
-                    <a href="#" class="btn">🚀 Live Demo</a>
-                    <a href="https://github.com/vxcoelho" class="btn btn-outline">📁 Source Code</a>
-                </div>
+            <div class="project-links">
+                <a href="https://web-production-8bf7f.up.railway.app/" class="btn-primary">View live demo</a>
+                <a href="https://github.com/vxcoelho/BuildamealAI" class="btn-outline">Source code</a>
+            </div>
+        </div>
+
+        <!-- Movie Matchmaker Project -->
+        <div class="project">
+            <h3>Movie Matchmaker</h3>
+            <p class="subtitle">Personalized movie recommendations powered by psychology.</p>
+            <p>Advanced recommendation system using personality profiling and TMDB integration. Discover films tailored to your unique preferences and viewing patterns through intelligent algorithms.</p>
+            
+            <div class="tech-list">
+                <span class="tech-item">Python</span>
+                <span class="tech-item">Flask</span>
+                <span class="tech-item">TMDB API</span>
+                <span class="tech-item">JavaScript</span>
+                <span class="tech-item">Algorithm Design</span>
+            </div>
+            
+            <div class="project-links">
+                <a href="#" class="btn-primary">View live demo</a>
+                <a href="https://github.com/vxcoelho" class="btn-outline">Source code</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <h3>Let's Connect</h3>
-            <p>Open to new opportunities and collaborations</p>
-            <div class="social-links">
-                <a href="https://linkedin.com/in/yourprofile" class="btn">LinkedIn</a>
-                <a href="https://github.com/vxcoelho" class="btn">GitHub</a>
-                <a href="mailto:your.email@domain.com" class="btn btn-outline">Email Me</a>
-            </div>
-            <p class="copyright">&copy; 2025 Xavier Coelho. All rights reserved.</p>
+    <footer class="footer" id="contact">
+        <h3>Let's Connect</h3>
+        <p>Available for new opportunities and collaborations.</p>
+        <div class="footer-links">
+            <a href="https://linkedin.com/in/yourprofile" class="btn-primary">LinkedIn</a>
+            <a href="https://github.com/vxcoelho" class="btn-primary">GitHub</a>
+            <a href="mailto:your.email@domain.com" class="btn-outline">Email</a>
         </div>
+        <p class="copyright">&copy; 2025 Xavier Coelho. All rights reserved.</p>
     </footer>
-
 </body>
 </html>
