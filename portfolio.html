@@ -13,26 +13,27 @@
         }
 
         :root {
-            --space-black: #0a0a0f;
-            --deep-black: #050508;
-            --silver: #c0c0c0;
-            --metallic-silver: linear-gradient(135deg, #667db6 0%, #667db6 1%, #0082c8 50%, #667db6 51%, #667db6 100%);
-            --neon-cyan: #00f0ff;
-            --neon-blue: #0066ff;
-            --glass-white: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --pure-black: #000000;
+            --rich-black: #1d1d1f;
+            --silver: #d2d2d7;
+            --light-silver: #f5f5f7;
+            --metallic-silver: linear-gradient(135deg, #e8e8ed 0%, #d2d2d7 50%, #c4c4c9 100%);
+            --accent-gray: #86868b;
+            --glass-white: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --shadow-black: rgba(0, 0, 0, 0.8);
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--space-black);
+            background: var(--pure-black);
             color: var(--silver);
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Animated Starfield Background */
+        /* Clean Apple-Style Background */
         .starfield {
             position: fixed;
             top: 0;
@@ -40,30 +41,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-        }
-
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+            background: linear-gradient(180deg, #000000 0%, #1d1d1f 100%);
         }
 
         /* Container */
@@ -82,29 +60,12 @@
             position: relative;
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
-        }
 
         .header h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 4.5em;
             font-weight: 900;
-            background: linear-gradient(135deg, #ffffff 0%, var(--neon-cyan) 100%);
+            background: linear-gradient(135deg, #ffffff 0%, var(--silver) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -112,17 +73,11 @@
             text-transform: uppercase;
             letter-spacing: 4px;
             position: relative;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.5)); }
-            to { filter: drop-shadow(0 0 30px rgba(0, 240, 255, 0.8)); }
         }
 
         .header .subtitle {
             font-size: 1.4em;
-            color: var(--neon-cyan);
+            color: var(--silver);
             font-weight: 500;
             margin-bottom: 10px;
             text-transform: uppercase;
@@ -143,7 +98,7 @@
             font-size: 3em;
             text-align: center;
             margin-bottom: 60px;
-            background: linear-gradient(135deg, #ffffff 0%, var(--neon-cyan) 100%);
+            background: linear-gradient(135deg, #ffffff 0%, var(--silver) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -169,20 +124,6 @@
             overflow: hidden;
         }
 
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .project-card:hover::before {
-            left: 100%;
-        }
 
         .project-card::after {
             content: '';
@@ -191,7 +132,7 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+            background: linear-gradient(135deg, var(--silver), var(--accent-gray));
             border-radius: 20px;
             opacity: 0;
             z-index: -1;
@@ -199,9 +140,7 @@
         }
 
         .project-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--neon-cyan);
-            box-shadow: 0 20px 60px rgba(0, 240, 255, 0.3);
+            border-color: var(--silver);
         }
 
         .project-card:hover::after {
@@ -234,9 +173,9 @@
         }
 
         .tech-tag {
-            background: rgba(0, 240, 255, 0.1);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            color: var(--neon-cyan);
+            background: rgba(210, 210, 215, 0.1);
+            border: 1px solid rgba(210, 210, 215, 0.3);
+            color: var(--silver);
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.9em;
@@ -247,8 +186,8 @@
         }
 
         .tech-tag:hover {
-            background: rgba(0, 240, 255, 0.2);
-            border-color: var(--neon-cyan);
+            background: rgba(210, 210, 215, 0.2);
+            border-color: var(--silver);
             transform: scale(1.05);
         }
 
@@ -264,7 +203,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+            background: linear-gradient(135deg, var(--silver), var(--accent-gray));
             color: #000;
             padding: 14px 30px;
             text-decoration: none;
@@ -279,35 +218,18 @@
             overflow: hidden;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            transition: left 0.3s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.5);
+            opacity: 0.8;
         }
 
         .btn-outline {
             background: transparent;
-            border: 2px solid var(--neon-cyan);
-            color: var(--neon-cyan);
+            border: 2px solid var(--silver);
+            color: var(--silver);
         }
 
         .btn-outline:hover {
-            background: rgba(0, 240, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
+            background: rgba(210, 210, 215, 0.1);
         }
 
         /* Footer */
@@ -422,30 +344,11 @@
             }
         }
 
-        /* Scroll Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s forwards;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .project-card:nth-child(1) { animation-delay: 0.2s; }
-        .project-card:nth-child(2) { animation-delay: 0.4s; }
-        .project-card:nth-child(3) { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
-    <!-- Animated Starfield -->
-    <div class="starfield">
-        <div class="stars" id="stars"></div>
-    </div>
+    <!-- Clean Background -->
+    <div class="starfield"></div>
 
     <!-- Header Section -->
     <header class="header">
@@ -462,7 +365,7 @@
             <h2 class="section-title">Featured Projects</h2>
             
             <!-- Build-A-Meal Project -->
-            <div class="project-card fade-in">
+            <div class="project-card">
                 <h3>🍳 Build-A-Meal AI</h3>
                 <p>AI-powered recipe generator that creates custom meals from available ingredients using Google Gemini integration. Features meal planning, shopping list generation, dietary preferences support, and unlimited recipe browsing through TheMealDB API.</p>
                 
@@ -483,7 +386,7 @@
             </div>
             
             <!-- Movie Matchmaker Project -->
-            <div class="project-card fade-in">
+            <div class="project-card">
                 <h3>🎬 Movie Matchmaker</h3>
                 <p>Personality-based movie recommendation system using psychological profiling and TMDB API integration. Provides personalized movie suggestions based on user preferences and viewing patterns.</p>
                 
@@ -518,24 +421,5 @@
         </div>
     </footer>
 
-    <!-- Generate Stars with JavaScript -->
-    <script>
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const numberOfStars = 200;
-
-            for (let i = 0; i < numberOfStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                starsContainer.appendChild(star);
-            }
-        }
-
-        createStars();
-    </script>
 </body>
 </html>
