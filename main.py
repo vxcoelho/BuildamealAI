@@ -1,8 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import os
-from models import db, Recipe, MealPlan, Review
+from models import db, Recipe, MealPlan, Review, User
 from openai import OpenAI
 import google.generativeai as genai
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_bcrypt import Bcrypt
+from urllib.parse import urlparse
 
 # Setup AI client (Replit AI or Google Gemini)
 # Replit AI for local dev, Google Gemini (FREE) for Railway
@@ -49,6 +52,20 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
+
+# Initialize Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+login_manager.login_message = 'Please log in to access this page.'
+
+# Initialize Bcrypt for password hashing
+bcrypt = Bcrypt(app)
+
+# User loader function - Flask-Login uses this to reload the user from the session
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 # Sample recipes for seeding
 sample_recipes = [
@@ -140,6 +157,104 @@ with app.app_context():
             db.session.add(recipe)
         db.session.commit()
         print(f"✅ Database initialized with {len(sample_recipes)} recipes!")
+
+# ====================
+# AUTHENTICATION ROUTES
+# ====================
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        
+        # Validation
+        if not username or not email or not password:
+            flash('All fields are required!', 'error')
+            return render_template('register.html')
+        
+        if password != confirm_password:
+            flash('Passwords do not match!', 'error')
+            return render_template('register.html')
+        
+        if len(password) < 6:
+            flash('Password must be at least 6 characters!', 'error')
+            return render_template('register.html')
+        
+        # Check if user already exists
+        if User.query.filter_by(username=username).first():
+            flash('Username already exists!', 'error')
+            return render_template('register.html')
+        
+        if User.query.filter_by(email=email).first():
+            flash('Email already registered!', 'error')
+            return render_template('register.html')
+        
+        # Create new user with hashed password
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        new_user = User(username=username, email=email, password_hash=hashed_password)
+        
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account created successfully! Please log in.', 'success')
+            return redirect(url_for('login'))
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred. Please try again.', 'error')
+            print(f"Registration error: {e}")
+    
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        if not username or not password:
+            flash('Please enter both username and password!', 'error')
+            return render_template('login.html')
+        
+        # Find user
+        user = User.query.filter_by(username=username).first()
+        
+        if user and bcrypt.check_password_hash(user.password_hash, password):
+            login_user(user)
+            flash(f'Welcome back, {user.username}!', 'success')
+            
+            # Safely handle redirect - prevent open redirect vulnerability
+            next_page = request.args.get('next')
+            if next_page:
+                # Only allow relative URLs (same domain)
+                url_parts = urlparse(next_page)
+                if url_parts.netloc == '' and url_parts.scheme == '':
+                    return redirect(next_page)
+            
+            return redirect(url_for('home'))
+        else:
+            flash('Invalid username or password!', 'error')
+    
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('home'))
+
+# ====================
+# MAIN APP ROUTES
+# ====================
 
 @app.route('/')
 def home():
