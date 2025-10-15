@@ -30,12 +30,14 @@ class Recipe(db.Model):
 
 class MealPlan(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
     date = db.Column(db.Date, nullable=False, index=True)
     meal_type = db.Column(db.String(20), nullable=False, index=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     recipe = db.relationship('Recipe', backref='meal_plans')
+    user = db.relationship('User', backref='meal_plans')
     
     def __repr__(self):
         return f'<MealPlan {self.meal_type} on {self.date}>'

@@ -143,7 +143,32 @@ sample_recipes = [
 
 # Auto-initialize database on startup
 with app.app_context():
-    db.create_all()
+    # Check if database needs migration (for development/learning)
+    # In production, use proper migration tools like Flask-Migrate
+    needs_migration = False
+    
+    try:
+        # Try to query a MealPlan to check if user_id column exists
+        from sqlalchemy import inspect
+        inspector = inspect(db.engine)
+        
+        if 'meal_plan' in inspector.get_table_names():
+            columns = [col['name'] for col in inspector.get_columns('meal_plan')]
+            if 'user_id' not in columns:
+                needs_migration = True
+                print("⚠️  Database schema outdated - user_id column missing from MealPlan")
+    except Exception as e:
+        print(f"Migration check: {e}")
+    
+    # If migration needed, recreate tables (DEV ONLY - use Flask-Migrate for production!)
+    if needs_migration:
+        print("🔄 Recreating tables with updated schema...")
+        db.drop_all()
+        db.create_all()
+        print("✅ Tables recreated successfully!")
+    else:
+        db.create_all()
+    
     # Seed database if empty
     if Recipe.query.first() is None:
         for recipe_data in sample_recipes:
@@ -388,6 +413,7 @@ def about():
     return render_template('about.html', active_tab='about')
 
 @app.route('/planner')
+@login_required
 def planner():
     from datetime import datetime, timedelta
     from collections import defaultdict
@@ -466,8 +492,9 @@ def planner():
     start_of_week = today - timedelta(days=today.weekday())
     week_dates = [start_of_week + timedelta(days=i) for i in range(7)]
     
-    # Get all meal plans for this week
+    # Get all meal plans for this week (user-specific)
     meal_plans = MealPlan.query.filter(
+        MealPlan.user_id == current_user.id,
         MealPlan.date >= start_of_week,
         MealPlan.date < start_of_week + timedelta(days=7)
     ).all()
@@ -489,6 +516,7 @@ def planner():
                          active_tab='planner')
 
 @app.route('/planner/add', methods=['POST'])
+@login_required
 def add_meal_plan():
     from datetime import datetime
     import requests
@@ -539,14 +567,16 @@ def add_meal_plan():
             print(f"Error fetching API recipe: {e}")
             return {'success': False, 'error': str(e)}, 400
     
-    # Delete existing meal plan for this slot if any
+    # Delete existing meal plan for this slot if any (user-specific)
     MealPlan.query.filter_by(
+        user_id=current_user.id,
         date=datetime.strptime(date_str, '%Y-%m-%d').date(),
         meal_type=meal_type
     ).delete()
     
-    # Add new meal plan
+    # Add new meal plan (with user_id)
     meal_plan = MealPlan(
+        user_id=current_user.id,
         recipe_id=recipe_id,
         date=datetime.strptime(date_str, '%Y-%m-%d').date(),
         meal_type=meal_type
@@ -557,22 +587,26 @@ def add_meal_plan():
     return {'success': True, 'meal_plan_id': meal_plan.id}
 
 @app.route('/planner/remove/<int:meal_plan_id>', methods=['DELETE'])
+@login_required
 def remove_meal_plan(meal_plan_id):
-    meal_plan = MealPlan.query.get_or_404(meal_plan_id)
+    # Only allow users to delete their own meal plans
+    meal_plan = MealPlan.query.filter_by(id=meal_plan_id, user_id=current_user.id).first_or_404()
     db.session.delete(meal_plan)
     db.session.commit()
     return {'success': True}
 
 @app.route('/planner/shopping-list')
+@login_required
 def shopping_list():
     from datetime import datetime, timedelta
     from collections import defaultdict
     
-    # Get current week meal plans
+    # Get current week meal plans (user-specific)
     today = datetime.now().date()
     start_of_week = today - timedelta(days=today.weekday())
     
     meal_plans = MealPlan.query.filter(
+        MealPlan.user_id == current_user.id,
         MealPlan.date >= start_of_week,
         MealPlan.date < start_of_week + timedelta(days=7)
     ).all()
