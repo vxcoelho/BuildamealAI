@@ -27,7 +27,7 @@ The application features a luxury orange and black design with premium typograph
 - **User Authentication:** Complete user authentication system using Flask-Login for session management and Bcrypt for secure password hashing. Includes registration, login, logout, and URL redirect validation to prevent open redirect attacks.
 - **AI Integration:** Uses Replit AI Integrations (on Replit) or Google Gemini API (on Railway) for custom recipe generation based on user ingredients and cuisine preferences. Features a loading indicator during AI generation.
 - **Recipe Search:** Integrates with TheMealDB API for unlimited access to a vast collection of recipes, offering search by cuisine, text, or a combination.
-- **Meal Planning:** Includes a drag-and-drop weekly meal planner with features for assigning recipes, removing meals, generating shopping lists, and tracking basic nutrition (calories, protein, carbs).
+- **Meal Planning:** User-specific drag-and-drop weekly meal planner with features for assigning recipes, removing meals, generating shopping lists, and tracking basic nutrition (calories, protein, carbs). All planner routes require authentication and filter data by logged-in user.
 - **Deployment:** Configured for Railway deployment, including environment variable handling and database auto-initialization.
 
 ### Feature Specifications
@@ -35,7 +35,7 @@ The application features a luxury orange and black design with premium typograph
 - **User Authentication:** Secure registration and login system with unique username/email validation, password confirmation, and secure session management. Login includes safe redirect handling to prevent security vulnerabilities.
 - **AI Generator:** Allows users to input ingredients and select from 12 cuisines to generate new recipes. Advanced options include dietary preferences (Vegetarian, Vegan, Gluten-Free, Dairy-Free, Keto, Paleo, Low-Carb) and allergy specifications to ensure recipes meet specific dietary needs.
 - **Browse Recipes:** Provides filters for 26 world cuisines and text search capabilities.
-- **Meal Planner:** Weekly calendar interface for planning breakfast, lunch, and dinner, with automatic shopping list generation.
+- **Meal Planner:** User-specific weekly calendar interface for planning breakfast, lunch, and dinner, with automatic shopping list generation. Requires login to access.
 - **Hero Section:** Home page features a static high-quality cooking image background with animated particles and subtle zoom/pulse effects for a premium feel without video playback issues.
 
 ### System Design Choices
@@ -43,9 +43,10 @@ The application features a luxury orange and black design with premium typograph
 - **Database Schema:**
     - `User`: Stores user accounts (id, username, email, password_hash, created_at). Passwords are securely hashed using Bcrypt.
     - `Recipe`: Stores recipe details (id, title, ingredients, instructions, cooking_time, cuisine, calories, protein, carbs).
-    - `MealPlan`: Links recipes to specific dates and meal types (id, recipe_id, date, meal_type, created_at).
+    - `MealPlan`: Links recipes to specific dates and meal types (id, user_id, recipe_id, date, meal_type, created_at). Each meal plan belongs to a specific user.
 - **Error Handling:** Robust error handling for API calls and input validation.
 - **Performance:** CSS-only animations are used to optimize performance.
+- **Database Migration:** Automatic schema migration on startup detects missing columns (e.g., user_id in MealPlan) and recreates tables when needed. Includes comments for using Flask-Migrate in production.
 
 ## External Dependencies
 
