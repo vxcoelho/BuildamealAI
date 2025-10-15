@@ -24,13 +24,15 @@ The application features a luxury orange and black design with premium typograph
 - **Frontend:** Server-side rendering (SSR) using Flask and Jinja2 templating for dynamic content.
 - **Backend:** Python Flask framework with SQLAlchemy ORM for database interactions.
 - **Database:** PostgreSQL for production (optional), with SQLite fallback for simple deployments. Automatic Replit database URL detection and fallback. Automatic table creation and seeding of 10 sample recipes on app startup.
+- **User Authentication:** Complete user authentication system using Flask-Login for session management and Bcrypt for secure password hashing. Includes registration, login, logout, and URL redirect validation to prevent open redirect attacks.
 - **AI Integration:** Uses Replit AI Integrations (on Replit) or Google Gemini API (on Railway) for custom recipe generation based on user ingredients and cuisine preferences. Features a loading indicator during AI generation.
 - **Recipe Search:** Integrates with TheMealDB API for unlimited access to a vast collection of recipes, offering search by cuisine, text, or a combination.
 - **Meal Planning:** Includes a drag-and-drop weekly meal planner with features for assigning recipes, removing meals, generating shopping lists, and tracking basic nutrition (calories, protein, carbs).
 - **Deployment:** Configured for Railway deployment, including environment variable handling and database auto-initialization.
 
 ### Feature Specifications
-- **Tab Navigation:** 5 main tabs: Home (featured recipes), Browse Recipes (TheMealDB integration), AI Generator, My Favorites (placeholder), About.
+- **Tab Navigation:** 5 main tabs: Home (featured recipes), Browse Recipes (TheMealDB integration), AI Generator, My Favorites (placeholder), About. Login/Register/Logout buttons appear in the navigation bar based on authentication status.
+- **User Authentication:** Secure registration and login system with unique username/email validation, password confirmation, and secure session management. Login includes safe redirect handling to prevent security vulnerabilities.
 - **AI Generator:** Allows users to input ingredients and select from 12 cuisines to generate new recipes. Advanced options include dietary preferences (Vegetarian, Vegan, Gluten-Free, Dairy-Free, Keto, Paleo, Low-Carb) and allergy specifications to ensure recipes meet specific dietary needs.
 - **Browse Recipes:** Provides filters for 26 world cuisines and text search capabilities.
 - **Meal Planner:** Weekly calendar interface for planning breakfast, lunch, and dinner, with automatic shopping list generation.
@@ -39,6 +41,7 @@ The application features a luxury orange and black design with premium typograph
 ### System Design Choices
 - **Modular Structure:** Routes and database models are separated for clarity and maintainability.
 - **Database Schema:**
+    - `User`: Stores user accounts (id, username, email, password_hash, created_at). Passwords are securely hashed using Bcrypt.
     - `Recipe`: Stores recipe details (id, title, ingredients, instructions, cooking_time, cuisine, calories, protein, carbs).
     - `MealPlan`: Links recipes to specific dates and meal types (id, recipe_id, date, meal_type, created_at).
 - **Error Handling:** Robust error handling for API calls and input validation.
@@ -48,6 +51,8 @@ The application features a luxury orange and black design with premium typograph
 
 ### Current Dependencies
 - **Flask:** Web framework for the application.
+- **Flask-Login:** User session management for authentication.
+- **Flask-Bcrypt:** Password hashing library for secure password storage.
 - **SQLAlchemy:** ORM for database interactions with PostgreSQL.
 - **TheMealDB API:** Free, unlimited recipe database for the "Browse Recipes" section.
 - **Google Gemini API:** Used for AI recipe generation when deployed on Railway.
@@ -56,6 +61,5 @@ The application features a luxury orange and black design with premium typograph
 
 ### Anticipated Future Dependencies (Not yet integrated)
 - Database driver (e.g., `psycopg2` for PostgreSQL).
-- Authentication libraries (e.g., Flask-Login, bcrypt).
 - Potential CSS frameworks (e.g., Bootstrap, Tailwind).
 - Possible JavaScript frameworks (e.g., Vue.js, React, Alpine.js).
