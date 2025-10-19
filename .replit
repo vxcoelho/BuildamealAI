@@ -20,6 +20,7 @@ expertMode = true
 integrations = ["python_openai_ai_integrations:1.0.0"]
 
 [workflows]
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
@@ -28,15 +29,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Flask App"
+args = "Movie Matchmaker"
 
 [[workflows.workflow]]
-name = "Flask App"
+name = "Movie Matchmaker"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python main.py"
+args = "cd movie-matchmaker && python main.py"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -47,5 +48,5 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 42769
+localPort = 43003
 externalPort = 3000
