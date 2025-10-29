@@ -10,20 +10,16 @@
     }
 
     .browse-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 3.5rem;
-        background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        font-size: 48px;
+        font-weight: 600;
+        color: #f5f5f7;
         margin-bottom: 15px;
-        letter-spacing: 2px;
-        font-weight: 800;
+        letter-spacing: -0.003em;
     }
 
     .browse-subtitle {
-        color: #999;
-        font-size: 1.2rem;
+        color: #a1a1a6;
+        font-size: 21px;
     }
 
     .search-box {
@@ -34,54 +30,53 @@
 
     .search-form {
         display: flex;
-        gap: 15px;
+        gap: 12px;
     }
 
     .search-input {
         flex: 1;
-        padding: 20px 30px;
-        font-size: 1.1rem;
-        border: 3px solid rgba(255, 107, 53, 0.3);
-        border-radius: 60px;
-        background: #1a1a1a;
-        color: #ffffff;
+        padding: 12px 16px;
+        font-size: 17px;
+        border: 1px solid #3d3d3d;
+        border-radius: 8px;
+        background: #2d2d2d;
+        color: #f5f5f7;
         transition: all 0.3s;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
     }
 
     .search-input:focus {
         outline: none;
-        border-color: #FF6B35;
-        box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
+        border-color: #0071e3;
+        background: #3d3d3d;
     }
 
     .search-input::placeholder {
-        color: #666;
+        color: #6e6e73;
     }
 
     .search-btn {
-        background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
-        color: #000000;
-        padding: 20px 45px;
+        background: #0071e3;
+        color: #fff;
+        padding: 12px 22px;
         border: none;
-        border-radius: 60px;
+        border-radius: 980px;
         cursor: pointer;
-        font-size: 1.1rem;
-        font-weight: 800;
+        font-size: 17px;
+        font-weight: 400;
         transition: all 0.3s;
-        box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
         white-space: nowrap;
     }
 
     .search-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 35px rgba(255, 107, 53, 0.6);
+        background: #0077ed;
     }
 
     .loading {
         text-align: center;
         padding: 60px 20px;
-        color: #FF6B35;
-        font-size: 1.3rem;
+        color: #0071e3;
+        font-size: 19px;
     }
 
     .recipes-grid {
@@ -93,16 +88,15 @@
 
     .recipe-card {
         background: #2d2d2d;
-        border-radius: 15px;
+        border-radius: 12px;
         padding: 30px;
-        border: 2px solid rgba(255, 107, 53, 0.2);
+        border: 1px solid #2d2d2d;
         transition: all 0.3s;
     }
 
     .recipe-card:hover {
-        border-color: #FF6B35;
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        transform: translateY(-4px);
+        background: #3d3d3d;
     }
 
     .recipe-image {
@@ -114,53 +108,51 @@
     }
 
     .recipe-title {
-        font-family: 'Playfair Display', serif;
-        color: #FF6B35;
-        font-size: 1.8rem;
+        color: #f5f5f7;
+        font-size: 24px;
         margin-bottom: 15px;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     .recipe-category {
-        color: #999;
-        font-size: 0.9rem;
+        color: #a1a1a6;
+        font-size: 14px;
         margin-bottom: 15px;
     }
 
     .recipe-ingredients {
-        color: #cccccc;
-        line-height: 1.6;
+        color: #a1a1a6;
+        line-height: 1.47;
         margin-bottom: 15px;
-        font-size: 0.95rem;
+        font-size: 14px;
     }
 
     .recipe-instructions {
-        color: #999;
-        line-height: 1.7;
-        font-size: 0.95rem;
+        color: #a1a1a6;
+        line-height: 1.47;
+        font-size: 14px;
     }
 
     .empty-state {
         text-align: center;
         padding: 100px 20px;
-        color: #999;
+        color: #a1a1a6;
     }
 
     .empty-state h3 {
-        font-family: 'Playfair Display', serif;
-        color: #FF6B35;
-        font-size: 2rem;
+        color: #f5f5f7;
+        font-size: 28px;
         margin-bottom: 15px;
+        font-weight: 600;
     }
 
     .no-results {
         text-align: center;
         padding: 60px 20px;
-        color: #999;
-        font-size: 1.3rem;
+        color: #a1a1a6;
+        font-size: 19px;
     }
 
-    /* Mobile Responsiveness */
     @media (max-width: 768px) {
         .search-form {
             flex-direction: column;
@@ -174,7 +166,7 @@
 
         .search-btn {
             width: 100%;
-            padding: 16px;
+            padding: 12px;
         }
 
         .recipes-grid {
@@ -183,7 +175,7 @@
         }
 
         .browse-title {
-            font-size: 2rem;
+            font-size: 32px;
         }
     }
 
@@ -193,11 +185,11 @@
         }
 
         .browse-title {
-            font-size: 1.7rem;
+            font-size: 28px;
         }
 
         .recipe-title {
-            font-size: 1.5rem;
+            font-size: 21px;
         }
 
         .recipe-card {
@@ -243,24 +235,24 @@
             <option value="Vietnamese">Vietnamese</option>
         </select>
         <input type="text" id="searchInput" class="search-input" 
-               placeholder="🔍 Search for any recipe (e.g., chicken soup, pasta, curry)...">
+               placeholder="Search for any recipe...">
         <button type="submit" class="search-btn">Search</button>
     </form>
 </div>
 
 <div id="loading" class="loading" style="display: none;">
-    🔄 Searching recipes...
+    Searching recipes...
 </div>
 
 <div id="recipesGrid" class="recipes-grid"></div>
 
 <div id="emptyState" class="empty-state">
     <h3>Start Your Culinary Adventure</h3>
-    <p>Type any dish name, ingredient, or cuisine above and press Search to discover unlimited recipes!</p>
+    <p>Type any dish name, ingredient, or cuisine above and press Search to discover unlimited recipes</p>
 </div>
 
 <div id="noResults" class="no-results" style="display: none;">
-    No recipes found. Try a different search term!
+    No recipes found. Try a different search term
 </div>
 
 <script>
@@ -270,7 +262,6 @@ async function searchRecipes(event) {
     const searchTerm = document.getElementById('searchInput').value.trim();
     const cuisine = document.getElementById('cuisineSelect').value;
     
-    // Show loading, hide others
     document.getElementById('loading').style.display = 'block';
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('noResults').style.display = 'none';
@@ -279,14 +270,12 @@ async function searchRecipes(event) {
     try {
         let meals = [];
         
-        // If cuisine AND search term, get cuisine recipes then filter by name
         if (cuisine && searchTerm) {
             const cuisineUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${encodeURIComponent(cuisine)}`;
             const cuisineResponse = await fetch(cuisineUrl);
             const cuisineData = await cuisineResponse.json();
             
             if (cuisineData.meals) {
-                // Fetch full details for meals that match search term
                 const filtered = cuisineData.meals.filter(meal => 
                     meal.strMeal.toLowerCase().includes(searchTerm.toLowerCase())
                 );
@@ -298,7 +287,6 @@ async function searchRecipes(event) {
                 }
             }
         }
-        // If only cuisine selected, use area filter
         else if (cuisine) {
             const url = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${encodeURIComponent(cuisine)}`;
             const response = await fetch(url);
@@ -310,7 +298,6 @@ async function searchRecipes(event) {
                 return;
             }
         }
-        // If only search term provided, use search
         else if (searchTerm) {
             const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(searchTerm)}`;
             const response = await fetch(url);
@@ -323,7 +310,6 @@ async function searchRecipes(event) {
             }
         }
         
-        // No results found or no search criteria provided
         document.getElementById('loading').style.display = 'none';
         if (cuisine || searchTerm) {
             document.getElementById('noResults').style.display = 'block';
@@ -342,7 +328,6 @@ async function fetchMealDetails(meals) {
     const grid = document.getElementById('recipesGrid');
     grid.innerHTML = '';
     
-    // Fetch first 12 meals to avoid too many requests
     const mealsToFetch = meals.slice(0, 12);
     
     for (const meal of mealsToFetch) {
@@ -361,7 +346,6 @@ async function fetchMealDetails(meals) {
 function displaySingleRecipe(meal) {
     const grid = document.getElementById('recipesGrid');
     
-    // Extract ingredients
     const ingredients = [];
     for (let i = 1; i <= 20; i++) {
         const ingredient = meal[`strIngredient${i}`];
@@ -376,7 +360,7 @@ function displaySingleRecipe(meal) {
     card.innerHTML = `
         <img src="${meal.strMealThumb || ''}" alt="${meal.strMeal || 'Recipe'}" class="recipe-image">
         <div class="recipe-title">${meal.strMeal || 'Unknown Recipe'}</div>
-        <div class="recipe-category">🌍 ${meal.strArea || 'International'} • ${meal.strCategory || 'Main Course'}</div>
+        <div class="recipe-category">${meal.strArea || 'International'} • ${meal.strCategory || 'Main Course'}</div>
         <div class="recipe-ingredients"><strong>Ingredients:</strong> ${ingredients.slice(0, 5).join(', ')}${ingredients.length > 5 ? '...' : ''}</div>
         <div class="recipe-instructions"><strong>Instructions:</strong> ${meal.strInstructions ? meal.strInstructions.substring(0, 150) + '...' : 'See full recipe for instructions'}</div>
     `;
