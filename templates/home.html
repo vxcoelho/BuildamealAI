@@ -133,10 +133,18 @@
         background: #2d2d2d;
     }
 
+    .feature:hover .feature-icon {
+        transform: scale(1.05);
+    }
+
     .feature-icon {
-        font-size: 56px;
-        margin-bottom: 20px;
-        display: block;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 20px;
+        border-radius: 12px;
+        background-size: cover;
+        background-position: center;
+        transition: all 0.3s;
     }
 
     .feature-title {
@@ -185,7 +193,8 @@
         }
 
         .feature-icon {
-            font-size: 48px;
+            width: 100px;
+            height: 100px;
         }
     }
 
@@ -203,7 +212,8 @@
         }
 
         .feature-icon {
-            font-size: 40px;
+            width: 80px;
+            height: 80px;
         }
     }
 </style>
@@ -221,17 +231,17 @@
 <!-- Features Section -->
 <div class="features">
     <div class="feature">
-        <span class="feature-icon">🤖</span>
+        <div class="feature-icon" style="background-image: url('/static/stock_images/artificial_intellige_a3c8770d.jpg');"></div>
         <div class="feature-title">AI-Powered</div>
         <div class="feature-desc">Advanced AI creates custom recipes tailored to your ingredients</div>
     </div>
     <div class="feature">
-        <span class="feature-icon">⚡</span>
+        <div class="feature-icon" style="background-image: url('/static/stock_images/fast_speed_cooking_k_f109f6bc.jpg');"></div>
         <div class="feature-title">Instant Results</div>
         <div class="feature-desc">Get complete recipes with ingredients and instructions in seconds</div>
     </div>
     <div class="feature">
-        <span class="feature-icon">🌍</span>
+        <div class="feature-icon" style="background-image: url('/static/stock_images/world_cuisine_intern_77561258.jpg');"></div>
         <div class="feature-title">Any Cuisine</div>
         <div class="feature-desc">From Italian to Thai, create dishes from around the world</div>
     </div>
