@@ -14,28 +14,14 @@
         overflow: hidden;
     }
 
-    /* Hero Background */
+    /* Clean Gradient Hero (No Image) */
     .hero-background {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        overflow: hidden;
-        background-image: url('/static/hero-cooking.jpg');
-        background-size: cover;
-        background-position: center;
-        filter: brightness(0.4);
-    }
-
-    .hero-background::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.8) 100%);
+        background: linear-gradient(135deg, #1d1d1f 0%, #000 100%);
     }
 
     /* Main Content Container */
@@ -46,18 +32,21 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 80vh;
-        padding: 60px 20px;
+        min-height: 70vh;
+        padding: 80px 20px;
         text-align: center;
+        max-width: 980px;
+        margin: 0 auto;
     }
 
     .hero-title {
-        font-size: 56px;
+        font-size: 64px;
         font-weight: 600;
         margin-bottom: 20px;
         color: #f5f5f7;
         letter-spacing: -0.005em;
-        animation: fadeInDown 1s ease;
+        animation: fadeInDown 0.8s ease;
+        line-height: 1.08;
     }
 
     .hero-subtitle {
@@ -65,38 +54,35 @@
         font-size: 28px;
         margin-bottom: 40px;
         font-weight: 400;
-        animation: fadeInUp 1s ease 0.3s both;
+        animation: fadeInUp 0.8s ease 0.2s both;
         line-height: 1.14;
+        max-width: 600px;
     }
 
     .cta-button {
         background: #0071e3;
         color: #fff;
-        padding: 12px 22px;
+        padding: 14px 28px;
         border: none;
         border-radius: 980px;
         cursor: pointer;
-        font-size: 17px;
+        font-size: 19px;
         font-weight: 400;
         transition: all 0.3s;
         text-decoration: none;
         display: inline-block;
-        animation: fadeInUp 1s ease 0.6s both;
+        animation: fadeInUp 0.8s ease 0.4s both;
     }
 
     .cta-button:hover {
         background: #0077ed;
-    }
-
-    .cta-button span {
-        position: relative;
-        z-index: 1;
+        transform: translateY(-2px);
     }
 
     @keyframes fadeInDown {
         from {
             opacity: 0;
-            transform: translateY(-50px);
+            transform: translateY(-30px);
         }
         to {
             opacity: 1;
@@ -107,7 +93,7 @@
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(30px);
         }
         to {
             opacity: 1;
@@ -120,19 +106,22 @@
         position: relative;
         z-index: 10;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 35px;
-        margin-top: 80px;
-        padding: 0 20px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+        padding: 0 40px 60px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .feature {
         background: #1d1d1f;
-        padding: 35px;
+        padding: 40px;
         border-radius: 18px;
-        border: 1px solid #1d1d1f;
         transition: all 0.3s;
-        animation: fadeInUp 1s ease calc(0.9s + var(--delay)) both;
+        animation: fadeInUp 0.8s ease calc(0.6s + var(--delay)) both;
+        text-align: center;
     }
 
     .feature:nth-child(1) { --delay: 0s; }
@@ -140,29 +129,21 @@
     .feature:nth-child(3) { --delay: 0.3s; }
 
     .feature:hover {
-        transform: translateY(-4px);
+        transform: translateY(-8px);
         background: #2d2d2d;
     }
 
     .feature-icon {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto 25px;
-        border-radius: 50%;
-        background-size: cover;
-        background-position: center;
-        transition: all 0.3s;
-    }
-
-    .feature:hover .feature-icon {
-        transform: scale(1.05);
+        font-size: 56px;
+        margin-bottom: 20px;
+        display: block;
     }
 
     .feature-title {
         color: #f5f5f7;
         font-size: 24px;
         font-weight: 600;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
         letter-spacing: -0.002em;
     }
 
@@ -174,29 +155,37 @@
 
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
+        .hero-container {
+            min-height: 60vh;
+            padding: 60px 20px;
+        }
+
         .hero-title {
             font-size: 40px;
-            padding: 0 20px;
         }
 
         .hero-subtitle {
             font-size: 21px;
-            padding: 0 20px;
         }
 
         .cta-button {
             font-size: 17px;
-            padding: 12px 22px;
+            padding: 12px 24px;
         }
 
         .features {
             grid-template-columns: 1fr;
-            gap: 25px;
-            margin-top: 60px;
+            gap: 20px;
+            padding: 0 20px 40px;
+            margin-top: 40px;
         }
 
         .feature {
             padding: 30px;
+        }
+
+        .feature-icon {
+            font-size: 48px;
         }
     }
 
@@ -206,12 +195,7 @@
         }
 
         .hero-subtitle {
-            font-size: 17px;
-        }
-
-        .cta-button {
-            font-size: 17px;
-            padding: 12px 22px;
+            font-size: 19px;
         }
 
         .feature-title {
@@ -219,38 +203,35 @@
         }
 
         .feature-icon {
-            width: 80px;
-            height: 80px;
+            font-size: 40px;
         }
     }
 </style>
 
-<!-- Static Image Background -->
+<!-- Clean Gradient Background -->
 <div class="hero-background"></div>
 
 <!-- Main Hero Content -->
 <div class="hero-container">
     <h1 class="hero-title">Turn Leftovers Into Masterpieces</h1>
     <p class="hero-subtitle">AI-powered recipes from whatever's in your fridge</p>
-    <a href="/generate" class="cta-button">
-        <span>Start Creating →</span>
-    </a>
+    <a href="/generate" class="cta-button">Start Creating →</a>
 </div>
 
 <!-- Features Section -->
 <div class="features">
     <div class="feature">
-        <div class="feature-icon" style="background-image: url('/static/stock_images/sleek_modern_ai_tech_3e085227.jpg');"></div>
+        <span class="feature-icon">🤖</span>
         <div class="feature-title">AI-Powered</div>
         <div class="feature-desc">Advanced AI creates custom recipes tailored to your ingredients</div>
     </div>
     <div class="feature">
-        <div class="feature-icon" style="background-image: url('/static/stock_images/lightning_bolt_elect_910d9049.jpg');"></div>
+        <span class="feature-icon">⚡</span>
         <div class="feature-title">Instant Results</div>
         <div class="feature-desc">Get complete recipes with ingredients and instructions in seconds</div>
     </div>
     <div class="feature">
-        <div class="feature-icon" style="background-image: url('/static/stock_images/earth_globe_world_ma_23e2cddc.jpg');"></div>
+        <span class="feature-icon">🌍</span>
         <div class="feature-title">Any Cuisine</div>
         <div class="feature-desc">From Italian to Thai, create dishes from around the world</div>
     </div>
