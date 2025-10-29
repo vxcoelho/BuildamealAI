@@ -1,0 +1,7 @@
+git add .
+git commit -m "Updated to Apple-style design"
+git push origin main
+git add .
+git commit -m "Updated to Apple-style design"
+git push origin main
+
