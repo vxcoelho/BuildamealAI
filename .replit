@@ -29,15 +29,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Movie Matchmaker"
+args = "Build A Meal"
 
 [[workflows.workflow]]
-name = "Movie Matchmaker"
+name = "Build A Meal"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd movie-matchmaker && python main.py"
+args = "python main.py"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -48,5 +48,5 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 45569
-externalPort = 3000
+localPort = 46583
+externalPort = 3001
