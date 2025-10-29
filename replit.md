@@ -1,7 +1,7 @@
 # Build A Meal
 
 ## Overview
-Build A Meal is an AI-powered recipe generator web application built with Flask and PostgreSQL. The application features a modern orange and black luxury design with tab-based navigation across 5 main sections: Home, Browse Recipes, AI Generator, My Favorites (planned), and About. Its purpose is to provide users with custom recipe generation, a vast recipe collection, and meal planning tools, aiming to be a premier platform for culinary exploration.
+Build A Meal is an AI-powered recipe generator web application built with Flask and PostgreSQL. The application features a clean Apple-style design matching the user's portfolio aesthetic (vxcoelho.github.io/xaviercoelho/) with tab-based navigation across 5 main sections: Home, Browse Recipes, AI Generator, My Favorites (planned), and About. Its purpose is to provide users with custom recipe generation, a vast recipe collection, and meal planning tools, aiming to be a premier platform for culinary exploration.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
@@ -9,7 +9,23 @@ Preferred communication style: Simple, everyday language.
 ## System Architecture
 
 ### UI/UX Decisions
-The application features a luxury orange and black design with premium typography (Playfair Display for headings, Poppins for body) and professional food photography backgrounds. It utilizes gradient overlays, high-contrast text, and subtle animations (e.g., ripple effects, fade-ins) for an enhanced user experience. The design prioritizes visual consistency and responsiveness across all pages.
+The application features a clean Apple-style design with SF Pro Display system font and a professional color palette matching the user's portfolio aesthetic. The design system includes:
+
+**Apple Design System:**
+- **Typography:** SF Pro Display (-apple-system, BlinkMacSystemFont stack) throughout for a native, modern feel
+- **Color Palette:**
+  - Background: #000 (pure black)
+  - Cards/Surfaces: #1d1d1f (dark), #2d2d2d (medium), #3d3d3d (borders)
+  - Text: #f5f5f7 (white), #a1a1a6 (gray), #6e6e73 (placeholders)
+  - Actions: #0071e3 (Apple blue) for buttons, links, and active states
+- **Borders & Corners:** 
+  - Inputs: 8px radius
+  - Cards: 12-18px radius
+  - Buttons: 980px radius (pill shape)
+- **Animations:** Subtle hover effects, smooth transitions (0.3s), CSS-only for performance
+- **Typography Scale:** 48px (headings), 28px (subheadings), 21px (large text), 17px (body), 14px (small)
+
+The design prioritizes visual consistency, accessibility, and responsiveness across all pages with a premium Apple-like aesthetic.
 
 **Mobile Responsiveness:**
 - Two breakpoints: 768px (tablet) and 480px (mobile)
@@ -58,7 +74,7 @@ The application features a luxury orange and black design with premium typograph
 - **TheMealDB API:** Free, unlimited recipe database for the "Browse Recipes" section.
 - **Google Gemini API:** Used for AI recipe generation when deployed on Railway.
 - **Replit AI Integrations:** Used for AI recipe generation when running on Replit.
-- **Google Fonts:** For premium typography (Playfair Display, Poppins).
+- **System Fonts:** Uses Apple's SF Pro Display system font stack for native, fast rendering.
 
 ### Anticipated Future Dependencies (Not yet integrated)
 - Database driver (e.g., `psycopg2` for PostgreSQL).
